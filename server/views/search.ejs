@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>JsMarka - Search tests</title>
+	<meta charset="utf-8">
+	<meta name="author" content="Sochima Biereagu">
+	<meta name="description" content="A Modern JavaScript Code-Perfomance benchmarker">
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel='stylesheet' href='/assets/styles/normalize.css' />
+	<link rel='stylesheet' href='/libs/bootstrap/css/bootstrap.min.css' />
+	<link rel='stylesheet' href='/libs/bootstrap/css/bootstrap-theme.min.css' />
+	<link rel='stylesheet' href='/assets/styles/css/style.css' />
+	<link rel='stylesheet' href='/libs/jquery-confirm/jquery-confirm.min.css' />
+</head>
+
+<body>
+	<% let signInUrl = "/auth/github"; %>
+
+		<nav id="nav" class="navbar navbar-inverse">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">
+						<img id='nav-logo' src='/assets/images/jsmarka.png' />
+					</a>
+				</div>
+				<div align="right" id="navbar">
+					<% if (!signedIn){ %>
+						<a href="<%=signInUrl%>" id="signin" title="Signin to create tests" class="btn btn-default">
+							<img width="15" height="15" src="/assets/images/github-mark.png"> Github Sign In
+						</a>
+					<% } else { %>
+						<a id="signout" data-rdr="/tests" class="btn btn-danger">
+							<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+							Sign Out (<%= user.username %>)
+						</a>
+					<% } %>
+				</div>
+				<!--/#navbar -->
+			</div>
+		</nav>
+
+
+		<div class="container-fluid body">
+
+			<a href="/" class="btn btn-success">
+				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create new test
+			</a>
+
+			<br><br>
+			<div id='cat'>
+				<a href="/tests" title='All tests'> <b> &lt;&lt; </b> All tests</a>
+			</div>
+
+			<!-- search box -->
+			<div class="input-group search-test">
+				<form method="get" action="/search" id="search-form" class="form-inline">
+					<div class="form-group">
+						<input type="search" name="q" value="<%= query %>" class="form-control" placeholder="Search tests" required>
+					</div>
+					<button type="submit" class="btn btn-default"><b>&gt;&gt;</b></button>
+				</form>
+			</div>
+
+			<!-- tests listing -->
+			<div class="row tests-list">
+				<em margin-left> <b>  Search results for "<%= query %>" <!-- (<%= resultsCount %>) --> </b> </em>
+				<br><br>
+
+				<% if (tests.length){
+					for (let i=0; i < tests.length; i+=1) {
+				%>
+					<div class="col col-sm-4 test-pane">
+						<a href="/<%=tests[i].slug%>">
+						   <%= (tests[i].title.length < 70) ? (tests[i].title) : (tests[i].title.slice(0, 70)+'...') %>
+						</a>
+						<br>(<em>by <%= tests[i].user %>, <%= moment(tests[i].date).fromNow() %></em>)
+					</div>
+					<% }
+				} else { %>
+					<h3 margin-left> Nothing found </h3>
+				<% } %>
+
+			</div>
+
+			<!-- paging -->
+			<%- paging %>
+
+		</div>
+		<!-- /.body -->
+
+		<script src='/libs/jquery/jquery-3.2.1.min.js'></script>
+		<script src='/libs/bootstrap/js/bootstrap.min.js'></script>
+		<script src='/libs/jquery-confirm/jquery-confirm.min.js'></script>
+		
+		<script src='/assets/js/build/script.min.js'></script>
+</body>
+
+</html>

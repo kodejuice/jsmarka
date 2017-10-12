@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>JsMarka - <%= title %> - edit</title>
+	<meta charset="utf-8">
+	<meta name="author" content="Sochima Biereagu">
+	<meta name="description" content="A Modern JavaScript Code-Perfomance benchmarker">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<link rel='stylesheet' href='/assets/styles/normalize.css' />
+	<link rel='stylesheet' href='/libs/bootstrap/css/bootstrap.min.css' />
+	<link rel='stylesheet' href='/libs/bootstrap/css/bootstrap-theme.min.css' />
+	<link rel='stylesheet' href='/assets/styles/css/style.css' />
+	<link rel='stylesheet' href='/libs/jquery-confirm/jquery-confirm.min.css' />
+
+	<% var deentify = str => str ? str.replace(/&lt;/g, '<').replace(/&gt;/g, '>') : ""; %>
+</head>
+
+<body>
+	<% let signInUrl = "/auth/github"; %>
+
+	<div data-signedIn hidden><%= !!signedIn %></div>
+	<div data-edit-test hidden>true</div>
+
+	<!-- test details -->
+	<div data-author hidden><%= author %></div>
+	<div data-published hidden><%= publish %></div>
+	<div data-title hidden><%= title %></div>
+	<div data-slug hidden><%= slug %></div>
+
+	<!-- signed-in user -->
+	<div data-user hidden><%= (user && user.username) ? user.username : "" %></div>
+
+
+	<div id='data-html-code' hidden>
+		<!-- user html code goes here -->
+	</div>
+
+	<nav id="nav" class="navbar navbar-inverse">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/">
+					<img id='nav-logo' src='/assets/images/jsmarka.png' />
+				</a>
+			</div>
+			<div align="right" id="navbar">
+				<% if (!signedIn){ %>
+					<a href="<%=signInUrl%>" id="signin" title="Signin to save tests" class="btn btn-default">
+						<img width="15" height="15" src="/assets/images/github-mark.png"> Github Sign In
+					</a>
+				<% } else { %>
+					<a id="signout" data-rdr="/" class="btn btn-danger">
+						<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+						Sign Out (<%= user.username %>)
+					</a>
+				<% } %>
+			</div>
+			<!--/#navbar -->
+		</div>
+	</nav>
+
+		<!-- help dialog -->
+		<div class="modal fade helpDialog" tabindex="-1" role="dialog" aria-labelledby="dialog">
+		  <div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content" style="padding: 5px;">
+			<br>
+			<!-- title -->
+			<blockquote>
+				<b> title (</b>String <em>title</em><b>)</b>
+				<blockquote>
+					<p>sets the title of your test</p>
+				</blockquote>
+			</blockquote>
+			<!-- benchmarkCode -->
+			<blockquote>
+				<b> benchmarkCode (</b>String <em>test_name</em><b>,</b> Function <em>test</em><b> [,</b> Boolean <em>async</em> = false <b>]</b>)
+				<blockquote>
+					<br>
+					<p> String <em>test_name</em> </p>
+					<blockquote>
+						<p>Specifies the name of the test beign run</p>
+					</blockquote>
+					<br>
+					<p> Function <em>test</em> </p>
+					<blockquote>
+						<p>The test function</p>
+					</blockquote>
+					<p> Boolean <em>async</em> </p>
+					<blockquote>
+						<p>Indicates your test runs asynchronously, if set to true then the <em>test</em> function is passed an object as argument,
+						<br><br>
+						Call the <b>resolve()</b> method of that object when your asynchronous test is complete
+						</p>
+					</blockquote>
+				</blockquote>
+			</blockquote>
+			<!-- teardown -->
+			<blockquote>
+				<b> teardown (</b>Function <em>fn</em><b>)</b>
+				<blockquote>
+					<p>Calls <b>fn</b> after each test loop, outside the tested code region</p>
+				</blockquote>
+			</blockquote>
+			<!-- oncycle -->
+			<blockquote>
+				<b> oncycle (</b>Function <em>fn</em><b>)</b>
+				<blockquote>
+					<p>Calls <b>fn</b> after each run cycle, outside the tested code region</p>
+				</blockquote>
+			</blockquote>
+			</blockquote>
+
+			<blockquote>
+				<p>	<b>Note</b>: if the benchmark runner stays still for a long time without progressing, then the test isnt running because of an error in your code, close the dialog and fix your code.</p>
+			</blockquote>
+
+			<blockquote>
+				<b> Tips </b>
+				<p> <em> <b> - </b> Use "Ctrl+s" to save tests </em> </p>
+				<p> <em> <b> - </b> You can also use "Ctrl+return" to run tests </em> </p>
+				<p> <em><b>-</b> Use "Ctrl+." to make JsMarka a scratchpad, it runs your code without benchmarking </em></p>
+				<p> <em> <b> - </b> Disable firebug if running on Firefox </em> </p>
+			</blockquote>
+			</div>
+		  </div>
+		</div>
+
+
+		<!-- test runner dialog-->
+		<div class="modal fade runner" data-backdrop='false' data-keyboard='false' id='runner' role="dialog" aria-labelledby="runner" data-exec-script='true'>
+
+			<div class="modal-dialog modal-md" role="document">
+				<div class="modal-content">
+					<div align="right">
+						<button title="close" data-target='.runner' data-toggle='modal' id="close_runner" class="btn btn-danger test-btn">
+							<b> X </b>
+						</button>
+					</div>
+
+					<div id='circle-modal'></div>
+					<div id='canvas'>
+						<canvas id='test-result'></canvas>
+					</div>
+					<div id='current-test'></div>
+					<div align='right'>
+						<button title="save" id="save_test" class="btn btn-primary test-btn edit" hidden>
+							<span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save test
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+
+
+		<!-- .body -->
+		<div class="container-fluid body">
+
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title"> <b>Editing: </b> <%= title %> </h3>
+				</div>
+
+				<%
+					let isOwner = !!signedIn && author === user.username;
+				%>
+
+				<div class="panel-body" style="position: relative;">
+					<div> Created: <b> <%= moment(date).fromNow() %> </b> </div>
+				<% if (!!last_modified){ %>
+					<div> Last modified: <b> <%= moment(last_modified).fromNow() %> </b> </div>
+				<% } %>
+					<div> Author: <b> <%= author %> </b> </div>
+
+					<!-- Action buttons -->
+					<div id='action-btns-pane'>
+						<button data-act="Save" class="btn btn-primary action-btn edit" id="save_test">
+							<span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save edits
+						</button>
+						<a class="btn btn-danger action-btns" id="discard" href="/<%= slug %>">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel editing
+						</a>
+					</div>
+				
+			    </div>
+			</div>
+
+			<div class="row" id="editor-container">
+				<div class="col col-sm-6">
+					<!-- toggle js/html -->
+					<div id='toggle_buttons'>
+						<button title="JS" id="js_tog" data-index='0' class="btn btn-primary test-opt"><b>JS</b></button>
+						<button title="HTML" id="html_tog" data-index='1' class="btn test-opt"><b>HTML</b></button>
+					</div>
+
+					<!-- run test button -->
+					<button title="Run test" id="run_test" class="btn btn-info test-opt" data-toggle="modal" data-target=".runner">
+						<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+					</button>
+					<!-- change theme button -->
+					<button title="Change theme" id="change_theme" class="btn btn-default test-opt">
+						<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+					</button>
+
+					<!-- editors -->
+					<div class="codeview code" id="editor1" data-index='0'><%= deentify(decodeURIComponent(js1 || "")) %></div>         <!-- js -->
+					<div class="codeview code" id="editor3" data-index='1' hidden><%= deentify(decodeURIComponent(html || "")) %></div> <!-- html -->
+				</div>
+				<div class="col col-sm-6">
+					<!-- help button -->
+					<button title="Help" id="help" class="btn btn-success test-opt" data-toggle="modal" data-target=".helpDialog">
+						<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+					</button>
+
+					<!-- editor -->
+					<div class="codeview" id="editor2"><%= deentify(decodeURIComponent(js2 || "")) %></div>
+				</div>
+			</div>
+
+		</div>
+		<!-- /.body -->
+
+		<script src='/libs/ace/ace.js'></script>
+		<script src='/libs/jquery/jquery-3.2.1.min.js'></script>
+		<script src='/libs/bootstrap/js/bootstrap.min.js'></script>
+		<script src='/libs/jquery-confirm/jquery-confirm.min.js'></script>
+		<script src='/libs/jquery-hotkeys/jquery.hotkeys.min.js'></script>
+		<script src='/libs/chartjs/Chart.min.js'></script>
+
+		<script src='/assets/js/build/helpers.min.js'></script>
+		<script src='/assets/js/build/script.min.js'></script>
+		<script src='/assets/js/build/editor.min.js'></script>
+		<script src='/assets/js/build/bundle.js'></script>
+
+		<script>
+			$(function() {
+
+				// discard editing button
+				$('a#discard').click(function(ev) {
+					ev.preventDefault();
+
+					$.confirm({
+						title: "Discard editing?",
+						content: "Go back to the test page",
+						buttons: {
+							ok: function() {
+								window.location = "/<%= slug %>";
+							},
+							cancel: function(){}
+						}
+					});
+				});
+			})
+		</script>
+</body>
+
+</html>

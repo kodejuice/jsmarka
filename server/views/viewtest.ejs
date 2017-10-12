@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>JsMarka - <%= title %></title>
+	<meta charset="utf-8">
+	<meta name="author" content="Sochima Biereagu">
+	<meta name="description" content="A Modern JavaScript Code-Perfomance benchmarker">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<link rel='stylesheet' href='/assets/styles/normalize.css' />
+	<link rel='stylesheet' href='/libs/bootstrap/css/bootstrap.min.css' />
+	<link rel='stylesheet' href='/libs/bootstrap/css/bootstrap-theme.min.css' />
+	<link rel='stylesheet' href='/assets/styles/css/style.css' />
+	<link rel='stylesheet' href='/libs/jquery-confirm/jquery-confirm.min.css' />
+
+	<% var deentify = str => str ? str.replace(/&lt;/g, '<').replace(/&gt;/g, '>') : ""; %>
+</head>
+
+<body>
+	<% let signInUrl = "/auth/github"; %>
+
+	<div data-signedIn hidden><%= !!signedIn %></div>
+
+	<div id='data-html-code' hidden> <%- deentify(decodeURIComponent(html)) %> </div>
+
+	<nav id="nav" class="navbar navbar-inverse">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/">
+					<img id='nav-logo' src='/assets/images/jsmarka.png' />
+				</a>
+			</div>
+			<div align="right" id="navbar">
+				<% if (!signedIn){ %>
+					<a href="<%=signInUrl%>" id="signin" title="Signin to save tests" class="btn btn-default">
+						<img width="15" height="15" src="/assets/images/github-mark.png"> Github Sign In
+					</a>
+				<% } else { %>
+					<a id="signout" data-rdr="/" class="btn btn-danger">
+						<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+						Sign Out (<%= user.username %>)
+					</a>
+				<% } %>
+			</div>
+			<!--/#navbar -->
+		</div>
+	</nav>
+
+
+	<!-- test runner dialog-->
+	<div class="modal fade runner" data-backdrop='false' data-keyboard='false' id='runner' role="dialog" aria-labelledby="runner" data-exec-script='false'>
+
+		<div class="modal-dialog modal-md" role="document">
+			<div class="modal-content">
+				<div align="right">
+					<button title="close" data-target='.runner' data-toggle='modal' id="close_runner" class="btn btn-danger test-btn">
+						<b> X </b>
+					</button>
+				</div>
+
+				<div id='circle-modal'></div>
+				<div id='canvas'>
+					<canvas id='test-result'></canvas>
+				</div>
+				<div id='current-test'></div>
+			</div>
+		</div>
+
+	</div>
+
+
+
+	<!-- .body -->
+	<div class="container-fluid body">
+
+	<% if (!!signedIn){ %>
+		<div class="panel panel-primary">
+	<% } else { %>
+		<div class="panel panel-primary" style='width: 500px;'>
+	<% } %>
+			<div class="panel-heading">
+				<h3 class="panel-title"> <%= title %> </h3>
+			</div>
+
+			<%
+				let isOwner = !!signedIn && author === user.username;
+			%>
+
+			<div class="panel-body" style="position: relative;">
+				<div> Created: <b> <%= moment(date).fromNow() %> </b> </div>
+			<% if (!!last_modified){ %>
+				<div> Last modified: <b> <%= moment(last_modified).fromNow() %> </b> </div>
+			<% } %>
+				<div> Author: <b> <%= author %> </b> </div>
+
+
+			<% if (!publish && isOwner){ %>
+				<em> <br> Not published yet ! </em>
+				<form method="post" action="<%= slug %>/edit">
+					<input type='hidden' name='publish' value='true' />
+					<button data-act='Publish' class='btn-link'> PUBLISH TEST </button>
+				</form>
+			<% } else if (isOwner) { %>
+				<form method="post" action="<%= slug %>/edit">
+					<br>
+					<input type='hidden' name='publish' value='false' />
+					<button data-act='Unpublish' class='btn-link'> UNPUBLISH TEST </button>
+				</form>
+			<% } %>
+
+
+			<% if (!!signedIn){ %>
+				<!-- Action buttons -->
+				<div id='action-btns-pane'>
+				<% if(author !== user.username){ %>
+					<form  class="inline-block" method="get" action="<%= slug %>/edit">
+						<button data-act='Fork' class="btn btn-default action-btns" id="fork">
+							<span class="glyphicon glyphicon-copy" aria-hidden="true"></span> Fork and edit
+						</button>
+					</form>
+				<% } %>
+
+				<% if (isOwner){ %>
+					<form  class="inline-block" method="get" action="<%= slug %>/edit">
+						<button class="btn btn-primary action-btns" id="edit">
+							<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit test
+						</button>
+					</form>
+					<form class="inline-block" method="post" action="<%= slug %>/delete">
+						<button data-act="Delete" class="btn btn-danger action-btns" id="delete">
+							<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete test
+						</button>
+					</form>
+				<% } %>
+				</div>
+			<% } %>
+
+		    </div>
+		</div>
+
+
+		<div class="row" id="editor-container">
+			<div class="col col-sm-6">
+				<!-- toggle js/html -->
+				<div id='toggle_buttons'>
+					<button title="JS" id="js_tog" data-index='0' class="btn btn-primary test-opt"><b>JS</b></button>
+					<button title="HTML" id="html_tog" data-index='1' class="btn test-opt"><b>HTML</b></button>
+				</div>
+
+				<!-- run test button -->
+				<button title="Run test" id="run_test" class="btn btn-info test-opt" data-toggle="modal" data-target=".runner">
+					<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+				</button>
+				<!-- change theme button -->
+				<button title="Change theme" id="change_theme" class="btn btn-default test-opt">
+					<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+				</button>
+
+				<!-- editors -->
+				<div class="codeview code" id="editor1" data-index='0'><%= deentify(decodeURIComponent(js1 || "")) %></div>
+				<div class="codeview code" id="editor3" data-index='1' hidden><%= deentify(decodeURIComponent(html || "")) %></div>
+			</div>
+			<div class="col col-sm-6">
+				<!-- editor -->
+				<div class="codeview" id="editor2"><%= deentify(decodeURIComponent(js2 || "")) %></div>
+			</div>
+		</div>
+
+	</div>
+	<!-- /.body -->
+	<script src='/libs/ace/ace.js'></script>
+	<script src='/libs/jquery/jquery-3.2.1.min.js'></script>
+	<script src='/libs/bootstrap/js/bootstrap.min.js'></script>
+	<script src='/libs/jquery-confirm/jquery-confirm.min.js'></script>
+	<script src='/libs/jquery-hotkeys/jquery.hotkeys.min.js'></script>
+	<script src='/libs/chartjs/Chart.min.js'></script>
+
+	<script src='/assets/js/build/helpers.min.js'></script>
+	<script src='/assets/js/build/script.min.js'></script>
+	<script src='/assets/js/build/editor.min.js'></script>
+	<script src='/assets/js/build/bundle.js'></script>
+
+	<script> <%- decodeURIComponent(deentify(js2)) %> </script>
+
+	<script>
+		$(function(){
+			$('button[data-act]').click(function (ev){
+				ev.preventDefault();
+				var form = $(this).parent('form');
+
+				$.confirm({
+					title: 'Test visibility',
+					content: $(this).data('act') + " this test ?",
+					backgroundDismiss: true,
+					theme: 'material',
+					buttons: {
+						yes: function() {
+							form.submit();
+						},
+						no: function() {}
+					}
+				});
+			});
+
+			if ((location.hash + location.search).slice(1, 4).toLowerCase() === 'run'){
+				$$('#run_test').click();
+			}
+		});
+	</script>
+</body>
+
+</html>

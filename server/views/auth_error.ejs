@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>JsMarka - Authentication Error</title>
+	<meta charset="utf-8">
+	<meta name="author" content="Sochima Biereagu">
+	<meta name="description" content="A Modern JavaScript Code-Perfomance benchmarker">
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel='stylesheet' href='/assets/styles/normalize.css' />
+	<link rel='stylesheet' href='/libs/bootstrap/css/bootstrap.min.css' />
+	<link rel='stylesheet' href='/libs/bootstrap/css/bootstrap-theme.min.css' />
+	<link rel='stylesheet' href='/assets/styles/css/style.css' />
+</head>
+
+<body id='error_page'>
+	<% let signInUrl = "/auth/github"; %>
+
+		<nav id="nav" class="navbar navbar-inverse">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">
+						<img id='nav-logo' src='/assets/images/jsmarka.png' />
+					</a>
+				</div>
+				<!--/#navbar -->
+			</div>
+		</nav>
+
+		<div class="container-fluid body">
+			<div style="margin: 50px auto; text-align: center;">
+				<h1> Sorry we couldn't log you in right now </h1>
+
+				<div style="margin-top: 200px;">
+					<a href="<%=signInUrl%>" id="signin" class="btn btn-danger">
+						<img width="15" height="15" src="/assets/images/github-mark.png"> Try Again
+					</a>
+					<a href="/" class="btn btn-success">
+						<span class="glyphicon glyphicon-home" aria-hidden="true"></span> Go Home
+					</a>
+				</div>
+			</div>
+		</div>
+		<!-- /.body -->
+
+		<script src='/libs/jquery/jquery-3.2.1.min.js'></script>
+		<script src='/libs/bootstrap/js/bootstrap.min.js'></script>
+</body>
+
+</html>
