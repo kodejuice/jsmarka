@@ -76,7 +76,7 @@ button.test-btn {
 	padding: 4px;
 	border-radius: 0;
 
-	&#close_runner {
+	&#close_runner, &#close_disqus {
 		padding: 3px 10px;
 	}
 
@@ -116,6 +116,11 @@ div.body {
 				&#change_theme {
 					right: 1px;
 					top: 35px;
+				}
+
+				&#disqus_comments {
+					right: 1px;
+					top: 70px;
 				}
 
 				// toggle buttons
