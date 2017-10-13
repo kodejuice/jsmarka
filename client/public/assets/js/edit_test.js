@@ -104,7 +104,7 @@ $($ => {
 							.then(v => {
 								$.alert("Test edited, redirecting ...");
 
-								window.location = `${slug}`;
+								window.location = `/${new_slug ? toSlug(new_slug) : slug}`;
 							})
 							.catch(v => {
 								$.alert(v);
