@@ -50,7 +50,6 @@
 
 	<!-- test runner dialog-->
 	<div class="modal fade runner" data-backdrop='false' data-keyboard='false' id='runner' role="dialog" aria-labelledby="runner" data-exec-script='false'>
-
 		<div class="modal-dialog modal-md" role="document">
 			<div class="modal-content">
 				<div align="right">
@@ -66,9 +65,23 @@
 				<div id='current-test'></div>
 			</div>
 		</div>
-
 	</div>
 
+
+	<!-- Disqus comments dialog -->
+	<div class="modal disqus fade" data-backdrop='false' data-keyboard='false' id='disqus' role="dialog" aria-labelledby="disqus">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content" style='padding: 10px;'>
+				<div align="right">
+					<button title="close" data-target='.disqus' data-toggle='modal' id="close_disqus" class="btn btn-danger test-btn">
+						<b> X </b>
+					</button>
+				</div>
+
+				<div id="disqus_thread"></div>
+			</div>
+		</div>
+	</div>
 
 
 	<!-- .body -->
@@ -152,9 +165,15 @@
 				<button title="Run test" id="run_test" class="btn btn-info test-opt" data-toggle="modal" data-target=".runner">
 					<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
 				</button>
+
 				<!-- change theme button -->
 				<button title="Change theme" id="change_theme" class="btn btn-default test-opt">
 					<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+				</button>
+				
+				<!-- disqus -->
+				<button title="Comments" id="disqus_comments" class="btn btn-success test-opt" data-toggle="modal" data-target=".disqus">
+					<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
 				</button>
 
 				<!-- editors -->
@@ -168,6 +187,20 @@
 		</div>
 
 	</div>
+
+	<script>
+		var disqus_config = function () {
+			this.page.url = location.href;
+			this.page.identifier = "<%= slug %>";
+		};
+		(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://jsmarka.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+	</script>
+
 	<!-- /.body -->
 	<script src='/libs/ace/ace.js'></script>
 	<script src='/libs/jquery/jquery-3.2.1.min.js'></script>
@@ -207,7 +240,10 @@
 				$$('#run_test').click();
 			}
 		});
+
 	</script>
+
+	<script id="dsq-count-scr" src="//jsmarka.disqus.com/count.js" async></script>
 </body>
 
 </html>
