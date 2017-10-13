@@ -28,6 +28,13 @@ router.get('/:test_slug', function(req, res, next) {
 
 		item = item[0];
 		if (item.publish || (signedIn && item.user === user)){
+			if (!req.session[item.slug]){
+				req.session[item.slug] = true;
+				item.views = (item.views|0) + 1; // increment views
+
+				item.save();
+			}
+
 			res.render('viewtest', {
 				signedIn,
 				user: req.user,
@@ -45,7 +52,9 @@ router.get('/:test_slug', function(req, res, next) {
 
 				html: item.html_code,
 				js1: item.js_code1,
-				js2: item.js_code2
+				js2: item.js_code2,
+
+				views: item.views
 			});
 		}
 		else {
