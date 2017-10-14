@@ -6,15 +6,15 @@
     "homepage": "https://jsmarka.herokuapp.com",
     "repository": {
         "type": "git",
-        "url": "git+ssh://git@github.com/kodejuice/jsmarka.git"
+        "url": "git://github.com/kodejuice/jsmarka.git"
     },
     "bugs": {
         "url": "https://github.com/kodejuice/jsmarka/issues"
     },
     "scripts": {
         "build": "sass --style=compressed client/public/assets/styles/style.scss client/public/assets/styles/css/style.css & gulp",
-        "start": "node ./server/bin/www",
-        "dev": "nodemon ./server/bin/www & sass --style=compressed --watch client/public/assets/styles/:client/public/assets/styles/css & gulp watch"
+        "start": "node ./server/bin/jsmarka",
+        "dev": "nodemon ./server/bin/jsmarka & sass --style=compressed --watch client/public/assets/styles/:client/public/assets/styles/css & gulp watch"
     },
     "dependencies": {
         "body-parser": "~1.17.1",

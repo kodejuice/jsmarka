@@ -34,15 +34,15 @@ const ProgressBar = require('progressbar.js');
 let isRunning = false;
 let isSaving = false;
 
-let isModifiable = $$('.modal.runner').attr('data-exec-script') === 'true';    // is the code editor open to modifications
-let isEditPage = $$('div[data-edit-test]').html() === 'true';
+const isModifiable = $$('.modal.runner').attr('data-exec-script') === 'true';    // is the code editor open to modifications
+const isEditPage = $$('div[data-edit-test]').html() === 'true';
 
-let signedIn = $$("div[data-signedIn]").html() === 'true';  // is the user logged
+const signedIn = $$("div[data-signedIn]").html() === 'true';  // is the user logged
 
 
 // document load
 $($ => {
-	let _$ = $;
+	const _$ = $;
 
 
 	// run test button click

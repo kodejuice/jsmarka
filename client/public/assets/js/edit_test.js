@@ -10,12 +10,12 @@ $($ => {
 	const _$ = $;
 	let isSaving = false;
 
-	let signedIn = $$("div[data-signedIn]").html() === 'true';
+	const signedIn = $$("div[data-signedIn]").html() === 'true';
 
 	// test details
-	let title = $$('div[data-title]').html(),
+	const title = $$('div[data-title]').html(),
 		slug = $$('div[data-slug]').html(),
-		
+
 		publish = $$('div[data-published]').html(),
 		author = $$('div[data-author]').html(),
 
