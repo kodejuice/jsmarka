@@ -145,7 +145,9 @@ $(document).ready($ => {
 			let editor = ace.edit(selected_editor_name);
 
 			editor.setValue(
-				beauty[selected_editor_name].call(beautify, editor.getValue())
+				beauty[selected_editor_name].call(beautify, editor.getValue(), {
+			        end_with_newline: true
+				})
 			);
 		}
 	});
