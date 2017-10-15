@@ -1,20 +1,28 @@
 {
-    "name": "JsMarka",
-    "description": "A Javascript code-performance benchmarker",
-    "author": "Sochima Biereagu",
+    "name": "jsmarka",
+    "description": "A Javascript Code Performance Benchmarking App",
+    "author": [
+        {
+            "name": "Sochima Biereagu",
+            "email": "kodejuice@gmail.com"
+        }
+    ],
     "license": "MIT",
     "homepage": "https://jsmarka.herokuapp.com",
     "repository": {
         "type": "git",
         "url": "git://github.com/kodejuice/jsmarka.git"
     },
+    "version": "1.0.0",
+    "main": "./server/app",
+    "bin": "./server/bin/jsmarka",
     "bugs": {
         "url": "https://github.com/kodejuice/jsmarka/issues"
     },
     "scripts": {
-        "build": "sass --style=compressed client/public/assets/styles/style.scss client/public/assets/styles/css/style.css & gulp",
-        "start": "node ./server/bin/jsmarka",
-        "dev": "nodemon ./server/bin/jsmarka & sass --style=compressed --watch client/public/assets/styles/:client/public/assets/styles/css & gulp watch"
+        "build": "gulp",
+        "start": "./server/bin/jsmarka",
+        "dev": "nodemon ./server/bin/jsmarka & gulp watch"
     },
     "dependencies": {
         "body-parser": "~1.17.1",
@@ -26,6 +34,7 @@
         "express": "~4.15.2",
         "express-session": "^1.15.3",
         "helmet": "^3.8.1",
+        "js-beautify": "^1.7.4",
         "moment": "^2.18.1",
         "mongoose": "^4.11.9",
         "mongoose-search-plugin": "^0.1.2",

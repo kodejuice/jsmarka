@@ -4,8 +4,9 @@ let print = require('gulp-print');
 let babel = require('gulp-babel');
 let uglify = require('gulp-uglify');
 let rename = require('gulp-rename');
-// let deletefile = require('gulp-delete-file');
+// let sass = require('gulp-sass');
 let browserify = require('browserify');
+
 
 gulp.task('default', ['transpile-js', 'bundle-js']);
 
@@ -21,6 +22,12 @@ gulp.task('transpile-js', () => {
 		.pipe(gulp.dest('client/public/assets/js/build/'));
 });
 
+// sass
+gulp.task('sass', ()=>{
+	return gulp.src('client/public/assets/styles/*.scss')
+			   .pipe(sass())
+			   .pipe(gulp.dest('client/public/assets/styles/css'));
+});
 
 // browserify bundle
 gulp.task('bundle-js', ()=>{
@@ -38,6 +45,10 @@ gulp.task('bundle-js', ()=>{
 
 // listen on file change
 gulp.task('watch', () => {
+	// js
 	gulp
 		.watch('client/public/assets/js/*.js', ['transpile-js', 'bundle-js']);
+	// s?css
+//	gulp.watch('client/public/assets/styles/*.scss', ['sass']);
 });
+

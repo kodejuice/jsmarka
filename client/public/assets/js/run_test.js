@@ -27,9 +27,11 @@ func('oncycle',
 	(fn) => bench.oncycle = fn
 );
 
+window.beautify = require('js-beautify'); // used in editor.js
 
 const Benchmark = require('benchmark');
 const ProgressBar = require('progressbar.js');
+
 
 let isRunning = false;
 let isSaving = false;

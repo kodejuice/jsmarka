@@ -52,7 +52,7 @@ $(document).ready($ => {
 
 		// set all theme at once here
 		// so it would be cached for later changing
-		themes.map(thm => e.setTheme(`ace/theme/${thm}`));
+		themes.forEach(thm => e.setTheme(`ace/theme/${thm}`));
 
 		// set final theme from cache if its cached
 		//  else use 'monokai'
@@ -125,6 +125,24 @@ $(document).ready($ => {
 				cancel() {},
 			}
 		}); 
+	});
+
+	const beauty = {
+		editor1: beautify.js,
+		editor2: beautify.js,
+		editor3: beautify.html
+	};
+
+	// code beautify keybind - Ctrl + B
+	$$("textarea").bind('keydown', 'Ctrl+b', function(e){
+		if (isModifiable){
+			let selected_editor_name = $(this).parent().attr('id');
+			let editor = ace.edit(selected_editor_name);
+
+			editor.setValue(
+				beauty[selected_editor_name].call(beautify, editor.getValue())
+			);
+		}
 	});
 
 });
