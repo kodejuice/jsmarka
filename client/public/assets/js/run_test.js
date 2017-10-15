@@ -13,7 +13,9 @@ let bench = {
 	suite: null
 };
 
-// benchmark functions
+/////////////////////////
+// benchmark functions //
+/////////////////////////
 func('benchmarkCode', 
 	(title, fn, async = false) => bench.tests[title] = [fn, async]
 );
@@ -27,12 +29,18 @@ func('oncycle',
 	(fn) => bench.oncycle = fn
 );
 
+//////////////////
+// node modules //
+//////////////////
 window.beautify = require('js-beautify'); // used in editor.js
 
 const Benchmark = require('benchmark');
 const ProgressBar = require('progressbar.js');
 
 
+//////////
+// defs //
+//////////
 let isRunning = false;
 let isSaving = false;
 
@@ -42,7 +50,9 @@ const isEditPage = $$('div[data-edit-test]').html() === 'true';
 const signedIn = $$("div[data-signedIn]").html() === 'true';  // is the user logged
 
 
-// document load
+///////////////////
+// document load //
+///////////////////
 $($ => {
 	const _$ = $;
 

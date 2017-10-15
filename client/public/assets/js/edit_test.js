@@ -158,6 +158,8 @@ $($ => {
 		return new Promise((resolve, reject)=>{
 			_$.confirm({
 				content() {
+					// make an ajax request to the edit_test script
+					
 					return $.ajax({
 						url: `/${o.slug}/edit`,
 						method: 'post',

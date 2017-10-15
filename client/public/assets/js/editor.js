@@ -127,6 +127,11 @@ $(document).ready($ => {
 		}); 
 	});
 
+
+	///////////////////////////////
+	// code beautification setup //
+	///////////////////////////////
+
 	const beauty = {
 		editor1: beautify.js,
 		editor2: beautify.js,
