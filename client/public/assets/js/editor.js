@@ -145,6 +145,7 @@ $(document).ready($ => {
 			let editor = ace.edit(selected_editor_name);
 
 			editor.setValue(
+				'\n\n' +
 				beauty[selected_editor_name].call(beautify, editor.getValue(), {
 			        end_with_newline: true
 				})

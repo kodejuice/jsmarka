@@ -3,6 +3,9 @@
 // on document load
 $($ => {
 
+
+
+
 // sign out button click
 $("a#signout").click(function (){
 	let $this = $(this);

@@ -13,6 +13,30 @@
 	<link rel='stylesheet' href='/libs/bootstrap/css/bootstrap-theme.min.css' />
 	<link rel='stylesheet' href='/assets/styles/css/style.css' />
 	<link rel='stylesheet' href='/libs/jquery-confirm/jquery-confirm.min.css' />
+	<style>
+		footer {
+			display: block;
+			margin-top: 2em;
+			border-top: 2px solid #c4c4c4;
+			font-size: 0.9em;
+		}
+		footer ul {
+			padding: 0;
+			margin: 2px 2px 4px 3px;
+			list-style: none;
+		}
+		footer > ul > li {
+			float: left;
+			width: 15%;
+		}
+		footer > ul > li[about] {
+			width: 55%;
+			margin-right: 180px;
+		}
+		footer ul ul li {
+			margin-bottom: 0.1em;
+		}
+	</style>
 </head>
 
 <body>
@@ -89,6 +113,32 @@
 
 		</div>
 		<!-- /.body -->
+
+		<footer>
+			<ul>
+				<li about>
+					<h4>About</h4>
+					<p>JsMarka is a javascript code performance benchmarking app, providing an easy way to create and share test cases.</p>
+				</li>
+
+				<li>
+					<h4>Tests</h4>
+					<ul>
+						<% if (!!signedIn) { %> <li><a href="/mytests">My tests</a></li> <% } %>
+						<li><a href="/tests?cat=latest">Latest</a></li>
+						<li><a href="/tests?cat=popular">Popular</a></li>
+					</ul>
+				</li>
+				<li>
+					<h4>Jsmarka</h4>
+					<ul>
+						<li><a href="https://github.com/kodejuice/jsmarka">GitHub</a></li>
+						<li><a href="https://twitter.com/kodejuice">@kodejuice</a></li>
+					</ul>
+				</li>
+			</ul>
+		</footer>
+
 
 		<script src='/libs/jquery/jquery-3.2.1.min.js'></script>
 		<script src='/libs/bootstrap/js/bootstrap.min.js'></script>
