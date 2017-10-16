@@ -4,7 +4,7 @@ let print = require('gulp-print');
 let babel = require('gulp-babel');
 let uglify = require('gulp-uglify');
 let rename = require('gulp-rename');
-// let sass = require('gulp-sass');
+let sass = require('gulp-sass');
 let browserify = require('browserify');
 
 
@@ -48,7 +48,8 @@ gulp.task('watch', () => {
 	// js
 	gulp
 		.watch('client/public/assets/js/*.js', ['transpile-js', 'bundle-js']);
+
 	// s?css
-//	gulp.watch('client/public/assets/styles/*.scss', ['sass']);
+	gulp.watch('client/public/assets/styles/*.scss', ['sass']);
 });
 
