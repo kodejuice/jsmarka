@@ -44,6 +44,8 @@ $(document).ready($ => {
 		],
 	ptr = 0;
 
+	ace.require("ace/ext/language_tools");
+
 	// configure editors
 	editors.forEach((e, i) => {
 		// set first two editors mode to javascript
@@ -59,6 +61,12 @@ $(document).ready($ => {
 		e.setTheme(`ace/theme/${cache('theme') || 'monokai'}`);
 
 		e.setFontSize(15);
+
+		e.setOptions({
+			enableBasicAutocompletion: true,
+	        enableSnippets: true,
+	        enableLiveAutocompletion: true
+		});
 
 		// cache editor content `oncontentchange`
 		e.on('change', ()=>{
@@ -140,6 +148,7 @@ $(document).ready($ => {
 
 	// code beautify keybind - Ctrl + B
 	$$("textarea").bind('keydown', 'Ctrl+b', function(e){
+		e.preventDefault();
 		if (isModifiable){
 			let selected_editor_name = $(this).parent().attr('id');
 			let editor = ace.edit(selected_editor_name);

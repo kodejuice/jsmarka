@@ -35,6 +35,9 @@
 		footer ul ul li {
 			margin-bottom: 0.1em;
 		}
+		.resizable {
+
+		}
 	</style>
 </head>
 
@@ -72,56 +75,54 @@
 
 	<!-- help dialog -->
 	<div class="modal fade helpDialog" tabindex="-1" role="dialog" aria-labelledby="dialog">
-	  <div class="modal-dialog modal-lg" role="document">
-		<div class="modal-content" style="padding: 5px;">
-		<br>
-		<!-- title -->
-		<blockquote>
-			<b> title (</b>String <em>title</em><b>)</b>
-			<blockquote>
-				<p>sets the title of your test</p>
-			</blockquote>
-		</blockquote>
-		<!-- benchmarkCode -->
-		<blockquote>
-			<b> benchmarkCode (</b>String <em>test_name</em><b>,</b> Function <em>test</em><b> [,</b> Boolean <em>async</em> = false <b>]</b>)
-			<blockquote>
-				<br>
-				<p> String <em>test_name</em> </p>
-				<blockquote>
-					<p>Specifies the name of the test beign run</p>
-				</blockquote>
-				<br>
-				<p> Function <em>test</em> </p>
-				<blockquote>
-					<p>The test function</p>
-				</blockquote>
-				<p> Boolean <em>async</em> </p>
-				<blockquote>
-					<p>Indicates your test runs asynchronously, if set to true then the <em>test</em> function is passed an object as argument,
-					<br><br>
-					Call the <b>resolve()</b> method of that object when your asynchronous test is complete
-					</p>
-				</blockquote>
-			</blockquote>
-		</blockquote>
-		<!-- teardown -->
-		<blockquote>
-			<b> teardown (</b>Function <em>fn</em><b>)</b>
-			<blockquote>
-				<p>Calls <b>fn</b> after each test loop, outside the tested code region</p>
-			</blockquote>
-		</blockquote>
-		<!-- oncycle -->
-		<blockquote>
-			<b> oncycle (</b>Function <em>fn</em><b>)</b>
-			<blockquote>
-				<p>Calls <b>fn</b> after each run cycle, outside the tested code region</p>
-			</blockquote>
-		</blockquote>
-		</blockquote>
-		</div>
-	  </div>
+	    <div class="modal-dialog modal-lg" role="document">
+	        <div class="modal-content" style="padding: 5px;">
+	            <br>
+	            <!-- title -->
+	            <blockquote>
+	                <b> title (</b>String <em>title</em><b>)</b>
+	                <blockquote>
+	                    <p>sets the title of your test</p>
+	                </blockquote>
+	            </blockquote>
+	            <!-- benchmarkCode -->
+	            <blockquote>
+	                <b> benchmarkCode (</b>String <em>test_name</em><b>,</b> Function <em>test</em><b> [,</b> Boolean <em>async</em> = false <b>]</b>)
+	                <blockquote>
+	                    <br>
+	                    <p> String <em>test_name</em> </p>
+	                    <blockquote>
+	                        <p>Specifies the name of the test beign run</p>
+	                    </blockquote>
+	                    <br>
+	                    <p> Function <em>test</em> </p>
+	                    <blockquote>
+	                        <p>The test function</p>
+	                    </blockquote>
+	                    <p> Boolean <em>async</em> </p>
+	                    <blockquote>
+	                        <p>Indicates your test runs asynchronously, if set to true then the <em>test</em> function is passed an object as argument,
+	                            <br><br> Call the <b>resolve()</b> method of that object when your asynchronous test is complete
+	                        </p>
+	                    </blockquote>
+	                </blockquote>
+	            </blockquote>
+	            <!-- teardown -->
+	            <blockquote>
+	                <b> teardown (</b>Function <em>fn</em><b>)</b>
+	                <blockquote>
+	                    <p>Calls <b>fn</b> after each test loop, outside the tested code region</p>
+	                </blockquote>
+	            </blockquote>
+	            <!-- oncycle -->
+	            <blockquote>
+	                <b> oncycle (</b>Function <em>fn</em><b>)</b>
+	                <blockquote>
+	                    <p>Calls <b>fn</b> after each run cycle, outside the tested code region</p>
+	                </blockquote>
+	            </blockquote>
+	        </div>
+	    </div>
 	</div>
 
 
@@ -132,7 +133,7 @@
 				<h3> Test Runner </h3>
 				<br>
 				<p>
-					The test runner provides functions which are used to run tests, use the <b>Help</b>(<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>) button beside the code editor to see how this functions are utilized.
+					The test runner provides functions which are used to run tests, use the <b>Help</b>(<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>) button beside the code editor to see how these functions are utilized.
 				</p>
 				<p>
 					If the benchmark runner stays still for a long time without progressing, then the test isnt running probably because of an error in your code, close the test runner dialog and look for the problem in your code.
@@ -247,8 +248,8 @@
 				</button>
 
 				<!-- editors -->
-				<div class="codeview code" id="editor1" data-index='0'></div>        <!-- js -->
-				<div class="codeview code" id="editor3" data-index='1' hidden></div> <!-- html -->
+				<div class="codeview code resizable" id="editor1" data-index='0'></div>        <!-- js -->
+				<div class="codeview code resizable" id="editor3" data-index='1' hidden></div> <!-- html -->
 			</div>
 			<div class="col col-sm-6">
 				<!-- help button -->
@@ -257,7 +258,7 @@
 				</button>
 
 				<!-- editor -->
-				<div class="codeview" id="editor2"></div>
+				<div class="codeview resizable" id="editor2"></div>
 			</div>
 		</div>
 
@@ -298,6 +299,7 @@
 	</footer>
 
 	<script src='/libs/ace/ace.js'></script>
+	<script src="/libs/ace/ext-language_tools.js"></script>
 	<script src='/libs/jquery/jquery-3.2.1.min.js'></script>
 	<script src='/libs/bootstrap/js/bootstrap.min.js'></script>
 	<script src='/libs/jquery-confirm/jquery-confirm.min.js'></script>
