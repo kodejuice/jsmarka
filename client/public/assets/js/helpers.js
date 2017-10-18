@@ -30,10 +30,10 @@ func('toSlug', (str)=>{
 });
 
 
-// loading javascript file via url
+// load javascript file via url
 //  and inject source into page
 func('loadScript', (url, fn)=>{
-	const failed = [];
+	const failed = null;
 
 	$.ajax(url, {
 		dataType: 'jsonp',
@@ -45,21 +45,22 @@ func('loadScript', (url, fn)=>{
 				script.innerHTML = a;
 			$$('head').append(script);
 
-			fn.call(fn, a);
+			fn.call(fn, a, this);
 		},
 		error (){
-			failed.push(url);
+			failed = url;
 		}
-	});
+	}).always(()=>{
+		if (failed){
+			_$.alert({
+				title: 'Unable to load scripts',
+	            content: `Failed to load \n ${failed.join(',\n')}`,
+	            theme: 'material',
+	            backgroundDismiss: true
+			});
+		}
+	})
 
-	if (failed.length){
-		_$.alert({
-			title: 'Unable to load scripts',
-            content: `Failed to load \n ${failed.join(',\n')}`,
-            theme: 'material',
-            backgroundDismiss: true
-		});
-	}
 });
 
 
@@ -92,7 +93,7 @@ func('entify', (str) =>
 // check if input is whitespace or falsy
 func('isEmpty', (v)=>{
 	if (typeof v === 'string'){
-		v = v.replace(/\n/g, '');
+		v = v.replace(/\n+/g, '');
 
 		return !v.length;
 	}
