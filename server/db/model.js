@@ -1,8 +1,6 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
-mongoose.Promise = Promise;
-
 let searchPlugin = require('mongoose-search-plugin');
 
 // create Test & User Schema

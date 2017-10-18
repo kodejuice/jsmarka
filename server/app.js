@@ -1,11 +1,11 @@
 
-// load environment variables
-require('dotenv').load();
-
 let mongoose = require('mongoose');
+    mongoose.Promise = Promise;
 
 // connect to DB
-mongoose.connect('mongodb://localhost/jsmarka');
+mongoose.connect('mongodb://localhost/jsmarka', {
+    useMongoClient: true
+});
 
 let express = require('express');
 let path = require('path');
@@ -47,16 +47,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../client/public')));
 app.use(session({
-    secret: 'session secret',
-    secure: app.get('env') === 'production',
-    resave: true,
-    saveUninitialized: false,
-    cookie: {
-        expires: 600000
-    }
+   secret: 'session secret',
+   secure: false,
+   resave: false,
+   saveUninitialized: false,
+   cookie: {
+       expires: 600000
+   }
 }));
 app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.session());
 
 if (app.get('env') === 'production')
     app.set('trust proxy', 1); // trust first proxy
