@@ -513,7 +513,6 @@ $($ => {
 
 
 	// publish test function
-	// TODO: work here
 	function publishTest(o){
 		return new Promise((resolve, reject)=>{
 			_$.confirm({
