@@ -51,7 +51,7 @@ cmd.option('-p, --port <port>', 'port to run on', function (port) {
 
 
 // log
-cmd.option('-r, log', 'log http-requests to server', function () {
+cmd.option('-r, log', 'log http-requests', function () {
 	process.env.LOG = true;
 });
 
