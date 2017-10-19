@@ -10,16 +10,14 @@ let dotenv_file = require('path').resolve(
 require('dotenv').config({ path: dotenv_file });
 
 let app,
-  debug = require('debug')('jsmarka:server'),
-  http = require('http'),
-  fs = require('fs'),
-  url = require('url'),
+	debug = require('debug')('jsmarka:server'),
+	http = require('http'),
+	fs = require('fs'),
+	url = require('url'),
 
-  inquirer = require('inquirer'),
-  cmd = require('commander'),
-  shell = require('shelljs'),
-
-  { exec } = require('child_process');
+	inquirer = require('inquirer'),
+	cmd = require('commander'),
+	shell = require('shelljs');
 
 
 let server_port = normalizePort(process.env.PORT) || 3000,
@@ -28,7 +26,7 @@ let server_port = normalizePort(process.env.PORT) || 3000,
 
 
 if ((process.argv[2]+'').match(/(-h|--help)/i)) {
-  cmd.outputHelp(()=>`\n A JavaScript Code-Performance Benchmarking App\n`);
+	cmd.outputHelp(()=>`\n A JavaScript Code-Performance Benchmarking App\n`);
 }
 
 
@@ -43,66 +41,66 @@ cmd.version(require('../../package.json').version);
 
 // port
 cmd.option('-p, --port <port>', 'port to run on', function (port) {
-  port = normalizePort(port);
-  if (port) {
-    server_port = port;
-  } else {
-    err_msg('-p port must be numeric');
-  }
+	port = normalizePort(port);
+	if (port) {
+		server_port = port;
+	} else {
+		err_msg('-p port must be numeric');
+	}
 });
 
 
 // log
 cmd.option('-r, log', 'log http-requests to server', function () {
-  process.env.LOG = true;
+	process.env.LOG = true;
 });
 
 
 // config
 cmd.option('-s, --setup', 'setup jsmarka', function () {
-  if (!startServer) process.exit(1);
+	if (!startServer) process.exit(1);
 
-  startServer = false;
+	startServer = false;
 
-  let dotenv_string = "";
+	let dotenv_string = "";
 
-  let [app_port, githubid, githubsecret, githubcb] = [{
-    name: "port",
-    message: "Enter PORT",
-    default: server_port,
-    validate: p => isNumber(p)
-  }, {
-    name: "id",
-    message: "Enter Your Github App ID",
-    default: process.env.GITHUB_clientID,
-    validate: (p) => (''+p).length > 10
-  }, {
-    name: "secret",
-    message: "Enter Your Github App Secret",
-    default: process.env.GITHUB_clientSECRET,
-    validate: (p) => (''+p).length > 10
-  },{
-    name: "callback",
-    message: "Enter Your Github Callback URL",
-    default: process.env.GITHUB_callbackURL,
-    validate: function (p){
-      p = p + '';
+	let [app_port, githubid, githubsecret, githubcb] = [{
+		name: "port",
+		message: "Enter PORT",
+		default: server_port,
+		validate: p => isNumber(p)
+	}, {
+		name: "id",
+		message: "Enter Your Github App ID",
+		default: process.env.GITHUB_clientID,
+		validate: (p) => (''+p).length > 10
+	}, {
+		name: "secret",
+		message: "Enter Your Github App Secret",
+		default: process.env.GITHUB_clientSECRET,
+		validate: (p) => (''+p).length > 10
+	},{
+		name: "callback",
+		message: "Enter Your Github Callback URL",
+		default: process.env.GITHUB_callbackURL,
+		validate: function (p){
+		  p = p + '';
 
-      let done = this.async();
+		  let done = this.async();
 
-      setTimeout(()=>{
-        if (!p.match(/^https?:\/\/(.+)/i)){
-          done("Not a valid URL, must start with 'http://'");
-          return false;
-        }
-        done(null, true);
-      }, 1);
-    }
-  }];
+		  setTimeout(()=>{
+			if (!p.match(/^https?:\/\/(.+)/i)){
+			  done("Not a valid URL, must start with 'http://'");
+			  return false;
+			}
+			done(null, true);
+		  }, 1);
+		}
+	}];
 
 
-  inquirer.prompt([app_port, githubid, githubsecret, githubcb])
-  .then((answers) => {
+	inquirer.prompt([app_port, githubid, githubsecret, githubcb])
+	.then((answers) => {
 
 dotenv_string = `
 PORT = ${(''+answers.port).trim()}
@@ -114,62 +112,62 @@ GITHUB_clientSECRET = ${(''+answers.secret).trim()}
 GITHUB_callbackURL = ${(''+answers.callback).trim()}
 `;
 
-    fs.writeFile(dotenv_file, dotenv_string, (err)=>{
-      if (err){
-        err_msg(err);
-      }
+		fs.writeFile(dotenv_file, dotenv_string, (err)=>{
+			if (err){
+				err_msg(err);
+			}
 
-      console.log(`\n JsMarka configured! \n`);
-    });
+			console.log(`\n JsMarka configured! \n`);
+		});
 
-  })
-  .catch(a=>{
-    err_msg(a);
-  });
+	})
+	.catch(a=>{
+	err_msg(a);
+	});
 });
 
 
 // list config info
 cmd.option('-l, --list', 'see setup information', function () {
-  if (!startServer) process.exit(1);
+	if (!startServer) process.exit(1);
 
-  startServer = false;
+	startServer = false;
 
-  fs.readFile(dotenv_file, function (err, d){
-    if (err){
-      if (err.code === 'ENOENT'){
-        err_msg(`JsMarka not configured yet`);
-      }
-      err_msg(err);
-    }
+	fs.readFile(dotenv_file, function (err, d){
+		if (err){
+		  if (err.code === 'ENOENT'){
+			err_msg(`JsMarka not configured yet`);
+		  }
+		  err_msg(err);
+		}
 
-    console.log(d+'');
-  });
+		console.log(d+'');
+	});
 });
 
 
 // update
 cmd.option('-u, update', 'update jsmarka', function () {
-  if (!startServer) process.exit(1);
+	if (!startServer) process.exit(1);
 
-  startServer = false;
+	startServer = false;
 
-  shell.exec('npm i -g jsmarka@latest', (err, stdout, stderr)=>{
-    if (err){
-      err_msg(err);
-    }
-    console.log(stdout);
-  });
+	shell.exec('npm i -g jsmarka@latest', (err, stdout, stderr)=>{
+		if (err){
+			err_msg(err);
+		}
+		console.log(stdout);
+	});
 });
 
 
 // example usage
 cmd.on('--help', function (){
-  console.log(`
+	console.log(`
   Example usage:
 
   $ ${scriptName} -p 3000  (starts jsmarka server on port 3000)
-  `);
+	`);
 });
 
 cmd.parse(process.argv);
@@ -180,46 +178,46 @@ cmd.parse(process.argv);
 ///////////////////////
 
 if (startServer){
-  app = require('../app');
+	app = require('../app');
 
-  app.set('port', server_port);
+	app.set('port', server_port);
 
-  const server = http.createServer(app);
-  server.listen(server_port);
-
-
-  // error handler
-  server.on('error', (error) => {
-    if (error.syscall !== 'listen') {
-      throw error;
-    }
-
-    let bind = typeof server_port === 'string'
-      ? 'Pipe ' + server_port
-      : 'Port ' + server_port;
-
-    switch (error.code) {
-      case 'EACCES':
-        err_msg(bind + ' requires elevated privileges');
-        break;
-      case 'EADDRINUSE':
-        err_msg(bind + ' is already in use');
-        break;
-      default:
-        throw error;
-    }
-  });
+	const server = http.createServer(app);
+	server.listen(server_port);
 
 
-  // onlisten
-  server.on('listening', () => {
-    let addr = server.address();
-    let bind = typeof addr === 'string'
-      ? 'pipe ' + addr
-      : 'port ' + addr.port;
-    console.log('\n JsMarka Listening on ' + bind + '   (Ctrl-C to stop)\n');
+	// error handler
+	server.on('error', (error) => {
+	if (error.syscall !== 'listen') {
+		throw error;
+	}
 
-    // open browser
-    require("openurl").open(`http://localhost:${server_port}/`);
-  });
+	let bind = typeof server_port === 'string'
+	  ? 'Pipe ' + server_port
+	  : 'Port ' + server_port;
+
+	switch (error.code) {
+		case 'EACCES':
+			err_msg(bind + ' requires elevated privileges');
+			break;
+		case 'EADDRINUSE':
+			err_msg(bind + ' is already in use');
+			break;
+		default:
+			throw error;
+	}
+	});
+
+
+	// onlisten
+	server.on('listening', () => {
+		let addr = server.address();
+		let bind = typeof addr === 'string'
+		  ? 'pipe ' + addr
+		  : 'port ' + addr.port;
+		console.log('\n JsMarka Listening on ' + bind + '   (Ctrl-C to stop)\n');
+
+		// open browser
+		require("openurl").open(`http://localhost:${server_port}/`);
+	});
 }
