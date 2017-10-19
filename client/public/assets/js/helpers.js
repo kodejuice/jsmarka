@@ -33,10 +33,10 @@ func('toSlug', (str)=>{
 // load javascript file via url
 //  and inject source into page
 func('loadScript', (url, fn)=>{
-	const failed = null;
+	let failed = null;
 
 	$.ajax(url, {
-		dataType: 'jsonp',
+		// dataType: 'jsonp',
 		cache: true,
 		async: false,
 		success (a){
@@ -54,7 +54,7 @@ func('loadScript', (url, fn)=>{
 		if (failed){
 			_$.alert({
 				title: 'Unable to load scripts',
-	            content: `Failed to load \n ${failed.join(',\n')}`,
+	            content: `Failed to load \n ${failed}`,
 	            theme: 'material',
 	            backgroundDismiss: true
 			});
