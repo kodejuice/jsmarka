@@ -135,10 +135,10 @@ cmd.option('-l, --list', 'see setup information', function () {
 
 	fs.readFile(dotenv_file, function (err, d){
 		if (err){
-		  if (err.code === 'ENOENT'){
-			err_msg(`JsMarka not configured yet`);
-		  }
-		  err_msg(err);
+			if (err.code === 'ENOENT'){
+				err_msg(`JsMarka not configured yet`);
+			}
+			err_msg(err);
 		}
 
 		console.log(d+'');
