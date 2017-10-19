@@ -13,7 +13,7 @@ let favicon = require('serve-favicon');
 let logger = require('morgan');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
-let session = require('express-session');
+let cookieSession = require('cookie-session');
 let compression = require('compression');
 let helmet = require('helmet');
 
@@ -38,35 +38,30 @@ let app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// app.use(logger('dev'));
 app.use(compression());
 app.use(helmet());
-app.use(logger('dev')); // <= dev
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../client/public')));
-app.use(session({
-   secret: 'session secret',
-   secure: false,
-   resave: false,
-   saveUninitialized: false,
-   cookie: {
-       expires: 600000
-   }
+
+app.set('trust proxy', 1);
+app.use(cookieSession({
+    name: 'session',
+    keys: ['key1'],
+    maxAge: 24 * 60 * 60 * 1000 // 24hrs
 }));
 app.use(passport.initialize());
-//app.use(passport.session());
-
-if (app.get('env') === 'production')
-    app.set('trust proxy', 1); // trust first proxy
+app.use(passport.session());
 
 app.get_post = (pth, handler) => app.route(pth).get(handler).post(handler);
 
 
 // == Pages routing == //
 
-// (create new test)/home page
+// home page
 app.get_post('/', index);
 
 // _____ tests
