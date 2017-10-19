@@ -84,17 +84,17 @@ cmd.option('-s, --setup', 'setup jsmarka', function () {
 		message: "Enter Your Github Callback URL",
 		default: process.env.GITHUB_callbackURL,
 		validate: function (p){
-		  p = p + '';
+			p = p + '';
 
-		  let done = this.async();
+			let done = this.async();
 
-		  setTimeout(()=>{
-			if (!p.match(/^https?:\/\/(.+)/i)){
-			  done("Not a valid URL, must start with 'http://'");
-			  return false;
-			}
-			done(null, true);
-		  }, 1);
+			setTimeout(()=>{
+				if (!p.match(/^https?:\/\/(.+)/i)){
+					done("Not a valid URL, must start with 'http://'");
+					return false;
+				}
+				done(null, true);
+			}, 1);
 		}
 	}];
 
@@ -194,24 +194,24 @@ if (startServer){
 
 	// error handler
 	server.on('error', (error) => {
-	if (error.syscall !== 'listen') {
-		throw error;
-	}
-
-	let bind = typeof server_port === 'string'
-	  ? 'Pipe ' + server_port
-	  : 'Port ' + server_port;
-
-	switch (error.code) {
-		case 'EACCES':
-			err_msg(bind + ' requires elevated privileges');
-			break;
-		case 'EADDRINUSE':
-			err_msg(bind + ' is already in use');
-			break;
-		default:
+		if (error.syscall !== 'listen') {
 			throw error;
-	}
+		}
+
+		let bind = typeof server_port === 'string'
+		  ? 'Pipe ' + server_port
+		  : 'Port ' + server_port;
+
+		switch (error.code) {
+			case 'EACCES':
+				err_msg(bind + ' requires elevated privileges');
+				break;
+			case 'EADDRINUSE':
+				err_msg(bind + ' is already in use');
+				break;
+			default:
+				throw error;
+		}
 	});
 
 
@@ -221,7 +221,7 @@ if (startServer){
 		let bind = typeof addr === 'string'
 		  ? 'pipe ' + addr
 		  : 'port ' + addr.port;
-		console.log('\n JsMarka Listening on ' + bind + '   (Ctrl-C to stop)\n');
+		console.log('\n JsMarka Listening on ' + bind + '   (Ctrl-c to stop)\n');
 
 		// open browser
 		if (!process.env.NO_BROWSER){
