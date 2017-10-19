@@ -17,6 +17,7 @@ let app,
 
   inquirer = require('inquirer'),
   cmd = require('commander'),
+  shell = require('shelljs'),
 
   { exec } = require('child_process');
 
@@ -153,7 +154,7 @@ cmd.option('-u, update', 'update jsmarka', function () {
 
   startServer = false;
 
-  exec('npm i dotenv', (err, stdout, stderr)=>{
+  shell.exec('npm i -g jsmarka@latest', (err, stdout, stderr)=>{
     if (err){
       err_msg(err);
     }
