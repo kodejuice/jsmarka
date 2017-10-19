@@ -25,7 +25,7 @@ let server_port = normalizePort(process.env.PORT) || 3000,
 	scriptName = process.argv[1].split('/').pop();
 
 
-if ((process.argv[2]+'').match(/\b(-h|--help)\b/i)) {
+if ((process.argv[2]+'').match(/^(-h.*|--help)$/i)) {
 	cmd.outputHelp(()=>`\n A JavaScript Code-Performance Benchmarking App\n`);
 }
 
@@ -160,7 +160,7 @@ cmd.option('-u, update', 'update jsmarka', function () {
 
 
 // --no-browser
-cmd.option('--no-browser', 'start server without launching your browser', function() {
+cmd.option('--no-browser', 'start server without launching browser', function() {
 	process.env.NO_BROWSER = true;
 });
 
