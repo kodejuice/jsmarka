@@ -22,7 +22,7 @@
 	"scripts": {
 		"build": "gulp",
 		"start": "./server/bin/jsmarka",
-		"dev": "nodemon ./server/bin/jsmarka & gulp watch"
+		"dev": "nodemon ./server/bin/jsmarka --no-browser & gulp watch"
 	},
 	"dependencies": {
 		"body-parser": "~1.17.1",
