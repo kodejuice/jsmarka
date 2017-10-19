@@ -161,6 +161,12 @@ cmd.option('-u, update', 'update jsmarka', function () {
 });
 
 
+// --no-browser
+cmd.option('--no-browser', 'start server without launching your browser', function() {
+	process.env.NO_BROWSER = true;
+});
+
+
 // example usage
 cmd.on('--help', function (){
 	console.log(`
@@ -218,6 +224,8 @@ if (startServer){
 		console.log('\n JsMarka Listening on ' + bind + '   (Ctrl-C to stop)\n');
 
 		// open browser
-		require("openurl").open(`http://localhost:${server_port}/`);
+		if (!process.env.NO_BROWSER){
+			require("openurl").open(`http://localhost:${server_port}/`);
+		}
 	});
 }
