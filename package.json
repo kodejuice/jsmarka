@@ -19,6 +19,12 @@
 	"bugs": {
 		"url": "https://github.com/kodejuice/jsmarka/issues"
 	},
+	"keywords": [
+		"jsmarka",
+		"performance",
+		"test",
+		"benchmark"
+	],
 	"scripts": {
 		"build": "gulp",
 		"start": "./server/bin/jsmarka",
