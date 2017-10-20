@@ -59,7 +59,7 @@ func('loadScript', (url, fn)=>{
 	            backgroundDismiss: true
 			});
 		}
-	})
+	});
 
 });
 

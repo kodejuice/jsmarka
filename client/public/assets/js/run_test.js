@@ -13,10 +13,11 @@ let bench = {
 	suite: null
 };
 
+
 /////////////////////////
 // benchmark functions //
 /////////////////////////
-func('benchmarkCode', 
+func('benchmarkCode',
 	(title, fn, async = false) => bench.tests[title] = [fn, async]
 );
 func('title',
@@ -44,10 +45,10 @@ const ProgressBar = require('progressbar.js');
 let isRunning = false;
 let isSaving = false;
 
-const isModifiable = $$('.modal.runner').attr('data-exec-script') === 'true';    // is the code editor open to modifications
+const isModifiable = $$('.modal.runner').attr('data-exec-script') === 'true'; // is the code editor open to modifications
 const isEditPage = $$('div[data-edit-test]').html() === 'true';
 
-const signedIn = $$("div[data-signedIn]").html() === 'true';  // is the user logged
+const signedIn = $$("div[data-signedIn]").html() === 'true'; // is the user logged
 
 
 ///////////////////
@@ -58,10 +59,10 @@ $($ => {
 
 
 	// run test button click
-	$$('#run_test').click(function (ev){
+	$$('#run_test').click(function(ev) {
 
 		// prevent multiple suites running in background
-		if (bench.suite && bench.suite.running){
+		if (bench.suite && bench.suite.running) {
 			return;
 		}
 
@@ -77,7 +78,7 @@ $($ => {
 
 
 		// evaluate test code
-		if (isModifiable){
+		if (isModifiable) {
 			try {
 				// add user html code to page
 				$$('div#data-html-code').html(__htmlCode);
@@ -85,20 +86,20 @@ $($ => {
 				// exec code
 				eval(__setupCode + __testCode);
 
-				if (Object.keys(bench.tests).length == 0){
+				if (Object.keys(bench.tests).length == 0) {
 					throw "No test case found";
 				}
-			} catch(e){
+			} catch (e) {
 				isRunning = false;
 
 				_$.alert({
 					title: 'Error',
-					content: e+'',
+					content: e + '',
 					backgroundDismiss: true,
 					theme: 'material'
 				});
 
-				setTimeout(_=>{
+				setTimeout(_ => {
 					$('.modal#runner').modal('hide');
 				}, 1);
 
@@ -108,7 +109,7 @@ $($ => {
 
 
 		// no tests ?, close dialog and exit
-		if (Object.keys(bench.tests).length == 0){
+		if (Object.keys(bench.tests).length == 0) {
 			isRunning = false;
 			return closeDialog('No test case found');
 			// the `View test` page isn't modifiable
@@ -139,15 +140,17 @@ $($ => {
 			currentTest = 0;
 
 
-		// add test cases
+		// add test cases 
 		for (var t in bench.tests){
-			const [fn, async] = bench.tests[t];
+			if (bench.tests.hasOwnProperty(t)){
+				const [fn, async] = bench.tests[t];
 
-			suite.add(t, fn, {
-				defer: async
-			});
+				suite.add(t, fn, {
+					defer: async
+				});
 
-			testsCount += 1;
+				testsCount += 1;
+			}
 		}
 
 
@@ -183,16 +186,16 @@ $($ => {
 
 
 		// oncycle
-		suite.on('cycle', function (e){
+		suite.on('cycle', function(e) {
 			currentTest += 1;
 
 			results.push(e.target + '');
 
-			if (typeof bench.oncycle === 'function'){
+			if (typeof bench.oncycle === 'function') {
 				bench.oncycle.call(this, e);
 			}
 
-			if (currentTest < testsCount){
+			if (currentTest < testsCount) {
 				$$('.modal #current-test')
 					.html(`Running Benchmark: ${e['currentTarget'][(currentTest)].name}`);
 			}
@@ -204,7 +207,7 @@ $($ => {
 
 
 		// oncomplete
-		suite.on('complete', function (e){
+		suite.on('complete', function(e) {
 
 			isRunning = false;
 
@@ -213,7 +216,7 @@ $($ => {
 			//  ...
 			//  the `benchmarkCode` function is not re-invoked in
 			//  the `View test` page
-			if (isModifiable){
+			if (isModifiable) {
 				bench.tests = {};
 			}
 
@@ -233,10 +236,13 @@ $($ => {
 
 			const canvas = $('canvas#test-result')[0].getContext('2d');
 
-			let [hzs, labels] = [[], []],
-				fastest = -Infinity;
+			let [hzs, labels] = [
+				[],
+				[]
+			],
+			fastest = -Infinity;
 
-			this.filter(t=>{
+			this.filter(t => {
 				fastest = Math.max(fastest, ~~t.hz);
 
 				hzs.push(~~t.hz);
@@ -263,7 +269,7 @@ $($ => {
 								return results[item[0].index];
 							},
 							afterFooter(item, start) {
-								if (item[0].xLabel === fastest){
+								if (item[0].xLabel === fastest) {
 									return ' - fastest';
 								} else {
 									return ` ${Math.round(100 - ((item[0].xLabel / fastest) * 100))}% slower`;
@@ -299,7 +305,7 @@ $($ => {
 
 
 	// run test with "Ctrl+return"
-	$$("textarea, html").bind('keydown', "Ctrl+return", function (){
+	$$("textarea, html").bind('keydown', "Ctrl+return", function() {
 		if (isRunning || isSaving)
 			return;
 
@@ -308,22 +314,21 @@ $($ => {
 
 
 	// "Ctrl+." - use JsMarka as a Scratchpad for your JS code
-	$$("textarea, html").bind('keydown', "Ctrl+.", function (){
+	$$("textarea, html").bind('keydown', "Ctrl+.", function() {
 		if (isRunning || isSaving)
 			return;
 
-		if (isModifiable){
+		if (isModifiable) {
 			$$('div#data-html-code').html(ace.edit('editor3').getValue());
 			try {
 				eval(
-					ace.edit('editor1').getValue()
-					+
+					ace.edit('editor1').getValue() +
 					ace.edit('editor2').getValue()
 				);
-			} catch(e) {
+			} catch (e) {
 				_$.alert({
 					title: 'Error',
-					content: e+'',
+					content: e + '',
 					backgroundDismiss: true,
 					theme: 'material'
 				});
@@ -333,7 +338,7 @@ $($ => {
 
 
 	// save tests with "Ctrl+s"
-	$$("textarea, html").bind('keydown', 'Ctrl+s', function(e){
+	$$("textarea, html").bind('keydown', 'Ctrl+s', function(e) {
 		e.preventDefault();
 
 		if (isRunning || isSaving || !isModifiable)
@@ -343,14 +348,13 @@ $($ => {
 		$$('div#data-html-code').html(ace.edit('editor3').getValue());
 		try {
 			eval(
-				ace.edit('editor1').getValue()
-				+
+				ace.edit('editor1').getValue() +
 				ace.edit('editor2').getValue()
 			);
-		} catch(e) {
+		} catch (e) {
 			return _$.alert({
 				title: 'Error',
-				content: e+'',
+				content: e + '',
 				backgroundDismiss: true,
 				theme: 'material'
 			});
@@ -364,7 +368,7 @@ $($ => {
 
 
 	// update user html code on page `onkeypress`
-	$(ace.edit('editor3').textInput.getElement()).on('keypress', function(){
+	$(ace.edit('editor3').textInput.getElement()).on('keypress', function() {
 		$$('div#data-html-code').html(ace.edit('editor3').getValue());
 	});
 
@@ -378,10 +382,10 @@ $($ => {
 
 		if (isSaving || isEditPage)
 			return;
-		
+
 		isSaving = true;
 
-		if (!bench.title){
+		if (!bench.title) {
 			return $.alert("No title set, use the 'title()' function to set the title of your test");
 		}
 
@@ -390,7 +394,7 @@ $($ => {
 			jscode2 = entify(ace.edit('editor2').getValue()),
 			htmlcode = entify(ace.edit('editor3').getValue());
 
-		if (signedIn){
+		if (signedIn) {
 
 			// save-test dialog
 			_$.confirm({
@@ -426,9 +430,9 @@ $($ => {
 							let publish = self.find('input.publish').is(':checked');
 
 							// verify input
-							if (!slug.length || !title.length){
+							if (!slug.length || !title.length) {
 								isSaving = false;
-								
+
 								return _$.alert({
 									title: 'Error',
 									content: 'Fill in required fields',
@@ -439,20 +443,24 @@ $($ => {
 
 							// publish test (ajax request)
 							let prm = publishTest({
-								slug, title,
-								jscode1, jscode2, htmlcode,
-								publish, slugInput
+								slug,
+								title,
+								jscode1,
+								jscode2,
+								htmlcode,
+								publish,
+								slugInput
 							});
 
 							prm
-							.then(v => {
-								$.alert("Test published, redirecting ...");
+								.then(v => {
+									$.alert("Test published, redirecting ...");
 
-								window.location = `/${v}`; // redirect to new test url
-							})
-							.catch(v => {
-								$.alert(v);
-							});
+									window.location = `/${v}`; // redirect to new test url
+								})
+								.catch(v => {
+									$.alert(v);
+								});
 						}
 					},
 					cancel() {
@@ -469,7 +477,7 @@ $($ => {
 						slug.val(toSlug(this.value));
 					});
 
-					dis.find('form').on('submit', function (e) {
+					dis.find('form').on('submit', function(e) {
 						e.preventDefault();
 						jc.$$formSubmit.trigger('click');
 					});
@@ -483,8 +491,8 @@ $($ => {
 				content: "You must sign in first",
 				buttons: {
 					ok() {
-		            	isSaving  = false;
-			        }
+						isSaving = false;
+					}
 				}
 			});
 		}
@@ -499,54 +507,53 @@ $($ => {
 
 	// close test runner dialog
 	// with custom message
-	function closeDialog(msg){
+	function closeDialog(msg) {
 		_$.alert({
 			title: 'Error',
 			content: msg,
 			backgroundDismiss: true
 		});
 
-		return setTimeout(_=>{
+		return setTimeout(_ => {
 			$('.modal#runner').modal('hide');
 		}, 1);
 	}
 
 
 	// publish test function
-	function publishTest(o){
-		return new Promise((resolve, reject)=>{
+	function publishTest(o) {
+		return new Promise((resolve, reject) => {
 			_$.confirm({
 				content() {
 					return $.ajax({
-						url: '/addtest',
-						method: 'post',
-						timeout: 14e3,
-						data: {
-							originalSlug: o.slugInput,
-							slug: o.slug,
-							title: o.title,
-							jscode1: o.jscode1,
-							jscode2: o.jscode2,
-							htmlcode: o.htmlcode,
-							publish: o.publish
-						}
-					})
-					.done(data => {
-						let err;
-						if (err = isErrorMessage(data)) {
-							reject("Error: " + err);
-						}
-						else {
-							resolve(data); // data => `new-test slug`
-						}
-					})
-					.fail((a, e) => {
-						let o = {
-							'error': 'try again'
-						};
+							url: '/addtest',
+							method: 'post',
+							timeout: 14e3,
+							data: {
+								originalSlug: o.slugInput,
+								slug: o.slug,
+								title: o.title,
+								jscode1: o.jscode1,
+								jscode2: o.jscode2,
+								htmlcode: o.htmlcode,
+								publish: o.publish
+							}
+						})
+						.done(data => {
+							let err;
+							if (err = isErrorMessage(data)) {
+								reject("Error: " + err);
+							} else {
+								resolve(data); // data => `new-test slug`
+							}
+						})
+						.fail((a, e) => {
+							let o = {
+								'error': 'try again'
+							};
 
-						reject(`Server Error, ${o[e] || e}`);
-					});
+							reject(`Server Error, ${o[e] || e}`);
+						});
 				},
 				contentLoaded(data, status, xhr) {
 					isSaving = false;
@@ -559,4 +566,3 @@ $($ => {
 
 
 });
-
