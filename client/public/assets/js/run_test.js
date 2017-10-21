@@ -79,6 +79,8 @@ $($ => {
 
 		// evaluate test code
 		if (isModifiable) {
+			bench.tests = {};
+
 			try {
 				// add user html code to page
 				$$('div#data-html-code').html(__htmlCode);
@@ -210,15 +212,6 @@ $($ => {
 		suite.on('complete', function(e) {
 
 			isRunning = false;
-
-			// reset tests object
-			//  in (index / edit test page) only
-			//  ...
-			//  the `benchmarkCode` function is not re-invoked in
-			//  the `View test` page
-			if (isModifiable) {
-				bench.tests = {};
-			}
 
 			$$('.modal #current-test').html('<div center>Operations per second (higher is better)</div>');
 
