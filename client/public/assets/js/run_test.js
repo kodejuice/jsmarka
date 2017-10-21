@@ -102,7 +102,7 @@ $($ => {
 				});
 
 				setTimeout(_ => {
-					$('.modal#runner').modal('hide');
+					_$('.modal#runner').modal('hide');
 				}, 1);
 
 				return;
@@ -227,7 +227,7 @@ $($ => {
 			// display result in bar chart //
 			/////////////////////////////////
 
-			const canvas = $('canvas#test-result')[0].getContext('2d');
+			const canvas = _$('canvas#test-result')[0].getContext('2d');
 
 			let [hzs, labels] = [
 				[],
@@ -361,7 +361,7 @@ $($ => {
 
 
 	// update user html code on page `onkeypress`
-	$(ace.edit('editor3').textInput.getElement()).on('keypress', function() {
+	_$(ace.edit('editor3').textInput.getElement()).on('keypress', function() {
 		$$('div#data-html-code').html(ace.edit('editor3').getValue());
 	});
 
@@ -379,7 +379,7 @@ $($ => {
 		isSaving = true;
 
 		if (!bench.title) {
-			return $.alert("No title set, use the 'title()' function to set the title of your test");
+			return _$.alert("No title set, use the 'title()' function to set the title of your test");
 		}
 
 		// get codes
@@ -447,12 +447,12 @@ $($ => {
 
 							prm
 								.then(v => {
-									$.alert("Test published, redirecting ...");
+									_$.alert("Test published, redirecting ...");
 
 									window.location = `/${v}`; // redirect to new test url
 								})
 								.catch(v => {
-									$.alert(v);
+									_$.alert(v);
 								});
 						}
 					},
@@ -478,7 +478,7 @@ $($ => {
 			});
 			// end save-test dialog
 		} else {
-			$.alert({
+			_$.alert({
 				title: "Sign in",
 				escapeKey: false,
 				content: "You must sign in first",
@@ -508,7 +508,7 @@ $($ => {
 		});
 
 		return setTimeout(_ => {
-			$('.modal#runner').modal('hide');
+			_$('.modal#runner').modal('hide');
 		}, 1);
 	}
 
@@ -518,7 +518,7 @@ $($ => {
 		return new Promise((resolve, reject) => {
 			_$.confirm({
 				content() {
-					return $.ajax({
+					return _$.ajax({
 							url: '/addtest',
 							method: 'post',
 							timeout: 14e3,

@@ -3,10 +3,12 @@
 // on document load
 $($ => {
 
+const _$ = $;
+
 // sign out button click
-$("a#signout").click(function (){
-	let $this = $(this);
-	$.confirm({
+_$("a#signout").click(function (){
+	let $this = _$(this);
+	_$.confirm({
 	    title: 'Sign out!',
 	    content: 'Are you sure to continue ?',
 	    theme: 'supervan',

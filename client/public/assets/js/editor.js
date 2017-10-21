@@ -4,6 +4,8 @@
 // on document load
 $(document).ready($ => {
 
+	const _$ = $;
+
 	let hiddenElm1_code = deentify($$("[hidden]#code-1").html()); // js1
 	let hiddenElm2_code = deentify($$("[hidden]#code-2").html()); // js2
 	let hiddenElm3_code = $$("[hidden]#code-3").html();           // html
@@ -84,14 +86,14 @@ $(document).ready($ => {
 
 	// toggle html/js button click
 	t_buttons.find("button").click(function(){
-		let index = +$(this).data('index'); // 0, 1
+		let index = +_$(this).data('index'); // 0, 1
 		let toggle = (index + 1) % 2; // 0=>1, 1=>0
 
-		if ($(this).hasClass('btn-primary'))
+		if (_$(this).hasClass('btn-primary'))
 			return; // button already active
 
 		// make current button active & deactivate other button
-		$(this).addClass('btn-primary');
+		_$(this).addClass('btn-primary');
 		t_buttons.find(`button:eq(${toggle})`).removeClass('btn-primary');
 
 		// hide current editor & display other
@@ -116,7 +118,7 @@ $(document).ready($ => {
 
 	// reset editor button click
 	$$("#reset_editor").click(()=>{
-		$.confirm({
+		_$.confirm({
 			title: 'Reset?',
 			content: 'Reset editors to thier default content ?',
 			theme: 'material',
@@ -150,7 +152,7 @@ $(document).ready($ => {
 	$$("textarea").bind('keydown', 'Ctrl+b', function(e){
 		e.preventDefault();
 		if (isModifiable){
-			let selected_editor_name = $(this).parent().attr('id');
+			let selected_editor_name = _$(this).parent().attr('id');
 			let editor = ace.edit(selected_editor_name);
 
 			editor.setValue(

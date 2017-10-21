@@ -35,7 +35,7 @@ func('toSlug', (str)=>{
 func('loadScript', (url, fn)=>{
 	let failed = null;
 
-	$.ajax(url, {
+	_$.ajax(url, {
 		// dataType: 'jsonp',
 		cache: true,
 		async: false,

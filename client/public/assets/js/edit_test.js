@@ -102,12 +102,12 @@ $($ => {
 
 							prm
 							.then(v => {
-								$.alert("Test edited, redirecting ...");
+								_$.alert("Test edited, redirecting ...");
 
 								window.location = `/${new_slug ? toSlug(new_slug) : slug}`;
 							})
 							.catch(v => {
-								$.alert(v);
+								_$.alert(v);
 							});
 						}
 					},
@@ -133,7 +133,7 @@ $($ => {
 			});
 			// end save-test dialog
 		} else {
-			$.alert({
+			_$.alert({
 				title: "Sign in",
 				escapeKey: false,
 				content: "You must sign in first",
@@ -160,7 +160,7 @@ $($ => {
 				content() {
 					// make an ajax request to the edit_test script
 					
-					return $.ajax({
+					return _$.ajax({
 						url: `/${o.slug}/edit`,
 						method: 'post',
 						timeout: 14e3,
