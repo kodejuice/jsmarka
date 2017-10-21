@@ -40,7 +40,7 @@ router.post('/:test_slug/edit', function(req, res, next) {
 				if (!isEmptyString(js_code1) || !isEmptyString(js_code2) || !isEmptyString(html_code)){
 
 					// look for test with same slug
-					// if found respond with false (slug already taken)
+					// if found respond with (slug already taken)
 					// else create new test with slug
 					// ...
 
