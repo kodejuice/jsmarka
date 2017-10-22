@@ -339,40 +339,40 @@
 	</footer>
 
 
-		<script src='/libs/ace/ace.js'></script>
-		<script src="/libs/ace/ext-language_tools.js"></script>
-		<script src='/libs/jquery/jquery-3.2.1.min.js'></script>
-		<script src="/libs/jquery/jquery.ajax-cross-origin.min.js"></script>
-		<script src='/libs/bootstrap/js/bootstrap.min.js'></script>
-		<script src='/libs/jquery-confirm/jquery-confirm.min.js'></script>
-		<script src='/libs/jquery-hotkeys/jquery.hotkeys.min.js'></script>
-		<script src='/libs/chartjs/Chart.min.js'></script>
+	<script src='/libs/ace/ace.js'></script>
+	<script src="/libs/ace/ext-language_tools.js"></script>
+	<script src='/libs/jquery/jquery-3.2.1.min.js'></script>
+	<script src="/libs/jquery/jquery.ajax-cross-origin.min.js"></script>
+	<script src='/libs/bootstrap/js/bootstrap.min.js'></script>
+	<script src='/libs/jquery-confirm/jquery-confirm.min.js'></script>
+	<script src='/libs/jquery-hotkeys/jquery.hotkeys.min.js'></script>
+	<script src='/libs/chartjs/Chart.min.js'></script>
 
-		<script src='/assets/js/build/helpers.min.js'></script>
-		<script src='/assets/js/build/editor.min.js'></script>
-		<script src='/assets/js/build/bundle.js'></script>
-		<script src='/assets/js/build/script.min.js'></script>
+	<script src='/assets/js/build/helpers.min.js'></script>
+	<script src='/assets/js/build/editor.min.js'></script>
+	<script src='/assets/js/build/bundle.js'></script>
+	<script src='/assets/js/build/script.min.js'></script>
 
-		<script>
-			$(function() {
+	<script>
+		$(function() {
 
-				// discard editing button
-				$('a#discard').click(function(ev) {
-					ev.preventDefault();
+			// discard editing button
+			$('a#discard').click(function(ev) {
+				ev.preventDefault();
 
-					$.confirm({
-						title: "Discard editing?",
-						content: "Go back to the test page",
-						buttons: {
-							ok: function() {
-								window.location = "/<%= slug %>";
-							},
-							cancel: function(){}
-						}
-					});
+				$.confirm({
+					title: "Discard editing?",
+					content: "Go back to the test page",
+					buttons: {
+						ok: function() {
+							window.location = "/<%= slug %>";
+						},
+						cancel: function(){}
+					}
 				});
-			})
-		</script>
+			});
+		})
+	</script>
 </body>
 
 </html>

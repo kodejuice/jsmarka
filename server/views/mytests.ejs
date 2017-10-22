@@ -42,133 +42,132 @@
 <body>
 	<% let signInUrl = "/auth/github"; %>
 
-		<nav id="nav" class="navbar navbar-inverse">
-			<div class="container">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="/">
-						<img id='nav-logo' src='/assets/images/jsmarka.png' />
+	<nav id="nav" class="navbar navbar-inverse">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/">
+					<img id='nav-logo' src='/assets/images/jsmarka.png' />
+				</a>
+			</div>
+			<div align="right" id="navbar">
+				<% if (!signedIn){ %>
+					<a href="<%=signInUrl%>" id="signin" title="Signin to create tests" class="btn btn-default">
+						<img width="15" height="15" src="/assets/images/github-mark.png"> Github Sign In
 					</a>
+				<% } else { %>
+					<a id="signout" data-rdr="/mytests" class="btn btn-danger">
+						<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+						Sign Out (<%= user.username %>)
+					</a>
+				<% } %>
+			</div>
+			<!--/#navbar -->
+		</div>
+	</nav>
+
+
+	<div class="container-fluid body">
+
+		<a href="/" class="btn btn-success">
+			<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create new test
+		</a>
+
+		<br><br>
+
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active">
+				<a id='mytests-tab' aria-controls="my-tests" role="tab">My tests</a>
+			</li>
+			<li role="presentation">
+				<a id='alltests-tab' href="/tests" aria-controls="all-tests" role="tab">All tests</a>
+			</li>
+		</ul>
+
+		<!-- Tab panes -->
+		<div class="tab-content">
+		<% if (!signedIn){ %>
+			<h2> Sorry your'e not signed in yet </h2>
+		<% } else { %>
+
+			<!-- My tests -->
+			<div role="tabpanel" class="tab-pane active" id="mytests">
+				<div id='cat'>
+					<% if (cat === 'latest' || cat !== 'popular'){  %>
+						<b cat-mrg> Latest </b> <a href="/mytests?cat=popular&s=<%= pagingStart %>"> Popular </a>
+					<% } else if (cat === 'popular') { %>
+						<a href="/mytests?cat=latest&s=<%= pagingStart %>" cat-mrg> Latest </a> <b> Popular </b>
+					<% }%>
 				</div>
-				<div align="right" id="navbar">
-					<% if (!signedIn){ %>
-						<a href="<%=signInUrl%>" id="signin" title="Signin to create tests" class="btn btn-default">
-							<img width="15" height="15" src="/assets/images/github-mark.png"> Github Sign In
-						</a>
-					<% } else { %>
-						<a id="signout" data-rdr="/mytests" class="btn btn-danger">
-							<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-							Sign Out (<%= user.username %>)
-						</a>
+
+				<!-- search box -->
+				<div class="input-group search-test">
+					<form method="get" action="/search" id="search-form" class="form-inline">
+						<div class="form-group">
+							<input type="search" name="q" class="form-control" placeholder="Search tests" required>
+							<input name="cat" value="<%=((cat=='popular'||cat=='latest') ? cat : 'latest')%>" hidden>
+						</div>
+						<button type="submit" class="btn btn-default"><b>&gt;&gt;</b></button>
+					</form>
+				</div>
+
+				<!-- tests listing -->
+				<div class="row tests-list">
+
+					<% if (tests.length){
+						for (let i=0; i < tests.length; i+=1) {
+					%>
+						<div class="col col-sm-4 test-pane">
+							<a href="/<%=tests[i].slug%>" title="<%= !tests[i].publish ? 'private test' : '' %>"  style="color: <%= !tests[i].publish ? 'red' : ''%>;">
+							   <%= (tests[i].title.length < 70) ? (tests[i].title) : (tests[i].title.slice(0, 70)+'...') %>
+							</a> <br>
+							(<em><%= moment(tests[i].date).fromNow() %></em>)
+						</div>
+						<% }
+					} else { %>
+						<h3 margin-left> Nothing found </h3>
 					<% } %>
 				</div>
-				<!--/#navbar -->
-			</div>
-		</nav>
 
-
-		<div class="container-fluid body">
-
-			<a href="/" class="btn btn-success">
-				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create new test
-			</a>
-
-			<br><br>
-
-			<ul class="nav nav-tabs" role="tablist">
-				<li role="presentation" class="active">
-					<a id='mytests-tab' aria-controls="my-tests" role="tab">My tests</a>
-				</li>
-				<li role="presentation">
-					<a id='alltests-tab' href="/tests" aria-controls="all-tests" role="tab">All tests</a>
-				</li>
-			</ul>
-
-			<!-- Tab panes -->
-			<div class="tab-content">
-			<% if (!signedIn){ %>
-				<h2> Sorry your'e not signed in yet </h2>
-			<% } else { %>
-
-				<!-- My tests -->
-				<div role="tabpanel" class="tab-pane active" id="mytests">
-					<div id='cat'>
-						<% if (cat === 'latest' || cat !== 'popular'){  %>
-							<b cat-mrg> Latest </b> <a href="/mytests?cat=popular&s=<%= pagingStart %>"> Popular </a>
-						<% } else if (cat === 'popular') { %>
-							<a href="/mytests?cat=latest&s=<%= pagingStart %>" cat-mrg> Latest </a> <b> Popular </b>
-						<% }%>
-					</div>
-
-					<!-- search box -->
-					<div class="input-group search-test">
-						<form method="get" action="/search" id="search-form" class="form-inline">
-							<div class="form-group">
-								<input type="search" name="q" class="form-control" placeholder="Search tests" required>
-								<input name="cat" value="<%=((cat=='popular'||cat=='latest') ? cat : 'latest')%>" hidden>
-							</div>
-							<button type="submit" class="btn btn-default"><b>&gt;&gt;</b></button>
-						</form>
-					</div>
-
-					<!-- tests listing -->
-					<div class="row tests-list">
-
-						<% if (tests.length){
-							for (let i=0; i < tests.length; i+=1) {
-						%>
-							<div class="col col-sm-4 test-pane">
-								<a href="/<%=tests[i].slug%>" title="<%= !tests[i].publish ? 'private test' : '' %>"  style="color: <%= !tests[i].publish ? 'red' : ''%>;">
-								   <%= (tests[i].title.length < 70) ? (tests[i].title) : (tests[i].title.slice(0, 70)+'...') %>
-								</a> <br>
-								(<em><%= moment(tests[i].date).fromNow() %></em>)
-							</div>
-							<% }
-						} else { %>
-							<h3 margin-left> Nothing found </h3>
-						<% } %>
-					</div>
-
-					<!-- paging html, see mytests.js -->
-					<%- paging %>
-				<% } %>
-				</div>
+				<!-- paging html, see mytests.js -->
+				<%- paging %>
+			<% } %>
 			</div>
 		</div>
-		<!-- /.body -->
+	</div>
+	<!-- /.body -->
 
 
-		<footer>
-			<ul>
-				<li about>
-					<h4>About</h4>
-					<p>JsMarka is a javascript code performance benchmarking app, providing an easy way to create and share test cases.</p>
-				</li>
+	<footer>
+		<ul>
+			<li about>
+				<h4>About</h4>
+				<p>JsMarka is a javascript code performance benchmarking app, providing an easy way to create and share test cases.</p>
+			</li>
 
-				<li>
-					<h4>Tests</h4>
-					<ul>
-						<li><a href="/tests?cat=popular">Latest</a></li>
-						<li><a href="/tests?cat=popular">Popular</a></li>
-					</ul>
-				</li>
-				<li>
-					<h4>Jsmarka</h4>
-					<ul>
-						<li><a href="https://github.com/kodejuice/jsmarka">GitHub</a></li>
-						<li><a href="https://twitter.com/kodejuice">@kodejuice</a></li>
-					</ul>
-				</li>
-			</ul>
-		</footer>
+			<li>
+				<h4>Tests</h4>
+				<ul>
+					<li><a href="/tests?cat=popular">Latest</a></li>
+					<li><a href="/tests?cat=popular">Popular</a></li>
+				</ul>
+			</li>
+			<li>
+				<h4>Jsmarka</h4>
+				<ul>
+					<li><a href="https://github.com/kodejuice/jsmarka">GitHub</a></li>
+					<li><a href="https://twitter.com/kodejuice">@kodejuice</a></li>
+				</ul>
+			</li>
+		</ul>
+	</footer>
 
 
-		<script src='/libs/jquery/jquery-3.2.1.min.js'></script>
-		<script src='/libs/bootstrap/js/bootstrap.min.js'></script>
-		<script src='/libs/jquery-confirm/jquery-confirm.min.js'></script>
-		
-		<script src='/assets/js/build/tests.min.js'></script>
-		<script src='/assets/js/build/script.min.js'></script>
-
+	<script src='/libs/jquery/jquery-3.2.1.min.js'></script>
+	<script src='/libs/bootstrap/js/bootstrap.min.js'></script>
+	<script src='/libs/jquery-confirm/jquery-confirm.min.js'></script>
+	
+	<script src='/assets/js/build/tests.min.js'></script>
+	<script src='/assets/js/build/script.min.js'></script>
 </body>
 
 </html>

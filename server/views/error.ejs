@@ -41,79 +41,78 @@
 <body id='error_page'>
 	<% let signInUrl = "/auth/github"; %>
 
-		<nav id="nav" class="navbar navbar-inverse">
-			<div class="container">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="/">
-						<img id='nav-logo' src='/assets/images/jsmarka.png' />
-					</a>
-				</div>
-				<div align="right" id="navbar">
-					<% if (!signedIn){ %>
-						<a href="<%=signInUrl%>" id="signin" title="Signin to create tests" class="btn btn-default">
-							<img width="15" height="15" src="/assets/images/github-mark.png"> Github Sign In
-						</a>
-					<% } else { %>
-						<a id="signout" data-rdr="/tests" class="btn btn-danger">
-							<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-							Sign Out (<%= user.username %>)
-						</a>
-					<% } %>
-				</div>
-				<!--/#navbar -->
-			</div>
-		</nav>
-
-
-		<div class="container-fluid body">
-			<div style="margin: 0 auto;">
-				<h1><%= message %></h1>
-				<h2><b><%= error.status %></b></h2>
-				<% if (!!error.stack){ %>
-					<pre> <%= error.stack %></pre>
-				<% } %>
-			</div>
-
-			<div style="margin-top: 140px; text-align: center;">
-				<a href="/" class="btn btn-success">
-					<span class="glyphicon glyphicon-home" aria-hidden="true"></span> Go Home
+	<nav id="nav" class="navbar navbar-inverse">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/">
+					<img id='nav-logo' src='/assets/images/jsmarka.png' />
 				</a>
 			</div>
+			<div align="right" id="navbar">
+				<% if (!signedIn){ %>
+					<a href="<%=signInUrl%>" id="signin" title="Signin to create tests" class="btn btn-default">
+						<img width="15" height="15" src="/assets/images/github-mark.png"> Github Sign In
+					</a>
+				<% } else { %>
+					<a id="signout" data-rdr="/tests" class="btn btn-danger">
+						<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+						Sign Out (<%= user.username %>)
+					</a>
+				<% } %>
+			</div>
+			<!--/#navbar -->
+		</div>
+	</nav>
+
+
+	<div class="container-fluid body">
+		<div style="margin: 0 auto;">
+			<h1><%= message %></h1>
+			<h2><b><%= error.status %></b></h2>
+			<% if (!!error.stack){ %>
+				<pre> <%= error.stack %></pre>
+			<% } %>
 		</div>
 
-		<!-- /.body -->
-		<footer>
-			<ul>
-				<li about>
-					<h4>About</h4>
-					<p>JsMarka is a javascript code performance benchmarking app, providing an easy way to create and share test cases.</p>
-				</li>
+		<div style="margin-top: 140px; text-align: center;">
+			<a href="/" class="btn btn-success">
+				<span class="glyphicon glyphicon-home" aria-hidden="true"></span> Go Home
+			</a>
+		</div>
+	</div>
 
-				<li>
-					<h4>Tests</h4>
-					<ul>
-						<% if (!!signedIn) { %> <li><a href="/mytests">My tests</a></li> <% } %>
-						<li><a href="/tests?cat=latest">Latest</a></li>
-						<li><a href="/tests?cat=popular">Popular</a></li>
-					</ul>
-				</li>
-				<li>
-					<h4>Jsmarka</h4>
-					<ul>
-						<li><a href="https://github.com/kodejuice/jsmarka">GitHub</a></li>
-						<li><a href="https://twitter.com/kodejuice">@kodejuice</a></li>
-					</ul>
-				</li>
-			</ul>
-		</footer>
+	<!-- /.body -->
+	<footer>
+		<ul>
+			<li about>
+				<h4>About</h4>
+				<p>JsMarka is a javascript code performance benchmarking app, providing an easy way to create and share test cases.</p>
+			</li>
+
+			<li>
+				<h4>Tests</h4>
+				<ul>
+					<% if (!!signedIn) { %> <li><a href="/mytests">My tests</a></li> <% } %>
+					<li><a href="/tests?cat=latest">Latest</a></li>
+					<li><a href="/tests?cat=popular">Popular</a></li>
+				</ul>
+			</li>
+			<li>
+				<h4>Jsmarka</h4>
+				<ul>
+					<li><a href="https://github.com/kodejuice/jsmarka">GitHub</a></li>
+					<li><a href="https://twitter.com/kodejuice">@kodejuice</a></li>
+				</ul>
+			</li>
+		</ul>
+	</footer>
 
 
-		<script src='/libs/jquery/jquery-3.2.1.min.js'></script>
-		<script src='/libs/bootstrap/js/bootstrap.min.js'></script>
-		<script src='/libs/jquery-confirm/jquery-confirm.min.js'></script>
-		
-		<script src='/assets/js/build/script.min.js'></script>
-
+	<script src='/libs/jquery/jquery-3.2.1.min.js'></script>
+	<script src='/libs/bootstrap/js/bootstrap.min.js'></script>
+	<script src='/libs/jquery-confirm/jquery-confirm.min.js'></script>
+	
+	<script src='/assets/js/build/script.min.js'></script>
 </body>
 
 </html>
