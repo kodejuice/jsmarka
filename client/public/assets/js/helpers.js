@@ -33,12 +33,12 @@ func('toSlug', (str)=>{
 // load javascript file via url
 //  and inject source into page
 func('loadScript', (url, fn)=>{
-	let failed = null;
+	let failed = false;
 
 	_$.ajax(url, {
-		// dataType: 'jsonp',
 		cache: true,
 		async: false,
+		crossOrigin: true,
 		success (a){
 			// add script to page
 			let script = document.createElement('script');
@@ -47,14 +47,14 @@ func('loadScript', (url, fn)=>{
 
 			fn.call(fn, a, this);
 		},
-		error (){
-			failed = url;
+		error (xhr, msg){
+			failed = msg;
 		}
 	}).always(()=>{
 		if (failed){
 			_$.alert({
-				title: 'Unable to load scripts',
-	            content: `Failed to load \n ${failed}`,
+				title: `Unable to load scripts (${failed})`,
+	            content: `Failed to load \n ${url}`,
 	            theme: 'material',
 	            backgroundDismiss: true
 			});
