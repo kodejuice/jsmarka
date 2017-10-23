@@ -241,14 +241,14 @@
 	<!-- .body -->
 	<div class="container-fluid body">
 
+		<%
+			let isOwner = !!signedIn && author === user.username;
+		%>
+
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h3 class="panel-title"> <b>Editing: </b> <%= title %> </h3>
+				<h3 class="panel-title"> <b><%= isOwner ? "Editing:" : "Forking:" %></b> <%= title %> </h3>
 			</div>
-
-			<%
-				let isOwner = !!signedIn && author === user.username;
-			%>
 
 			<div class="panel-body" style="position: relative;">
 				<div> Created: <b> <%= moment(date).fromNow() %> </b> </div>
