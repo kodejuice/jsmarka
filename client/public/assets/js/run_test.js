@@ -20,9 +20,6 @@ let bench = {
 func('benchmarkCode',
 	(title, fn, async = false) => bench.tests[title] = [fn, async]
 );
-func('title',
-	(title) => bench.title = title
-);
 func('teardown',
 	(fn) => bench.teardown = fn
 );
@@ -373,14 +370,12 @@ $($ => {
 	// `Save test` button click
 	$$('button.test-btn#save_test').click(function() {
 
+		bench.title = '';
+
 		if (isSaving || isEditPage)
 			return;
 
 		isSaving = true;
-
-		if (!bench.title) {
-			return _$.alert("No title set, use the 'title()' function to set the title of your test");
-		}
 
 		// get codes
 		let jscode1 = entify(ace.edit('editor1').getValue()),
