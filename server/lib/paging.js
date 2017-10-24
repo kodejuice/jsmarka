@@ -13,16 +13,16 @@ function _link(url, name, start, isCurrent = false) {
 		` <a class='paging-link' href="${url}&s=${start}"> ${name} </a>`) + '</li>';
 }
 
-function paging(url, all, startAt, maxItems) {
+function paging(url, allDataCount, startAt, maxItems) {
 	maxItems -= 1;
 
-	let pages = ceil(all / maxItems);
+	let pages = ceil(allDataCount / maxItems);
 	let curpage = ~~(startAt / maxItems);
 
 	let res = `<nav center aria-label="Page navigation">
 				  <ul class="pagination">`;
 
-	if (all > maxItems){
+	if (allDataCount > maxItems){
 		res += (startAt > 0) ? _link(url, "Prev", curpage - 1) : "";
 
 		for (let x = max(1, curpage - 5); x < min(curpage + 5, pages); x += 1){

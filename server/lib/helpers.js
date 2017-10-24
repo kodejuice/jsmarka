@@ -6,12 +6,12 @@ module.exports = ()=>{
 	global.isNumber = (str) => {
 		let a = (''+str).match(/^[0-9]+$/);
 		return a ? !!a[0] : false;
-	}
+	};
 
 	global.isEmptyString = (str) => {
 		str = str.replace(/\n/g, '');
 		return !str.length;
-	}
+	};
 
 	global.isValidSlug = (slug) => {
 		let pages = ['index', 'home', 'mytests', 'tests', 'search', 'addtest', 'auth_error', 'sign_out', 'error'];
