@@ -119,7 +119,7 @@ $(document).ready($ => {
 	// reset editor button click
 	$$("#reset_editor").click(()=>{
 		_$.confirm({
-			title: 'Reset?',
+			title: 'Reset',
 			content: 'Reset editors to thier default content ?',
 			theme: 'material',
 
@@ -135,6 +135,28 @@ $(document).ready($ => {
 				cancel() {},
 			}
 		}); 
+	});
+
+
+
+	//////////////////////////////
+	// Clear editors keybinding //
+	//////////////////////////////
+
+	// Ctrl + Shift + E
+	$$("html, textarea").bind('keydown', 'Ctrl+Shift+E', function(e){
+		e.preventDefault();
+		if (isModifiable){
+			_$.confirm({
+				title: "Clear all code editors",
+				buttons: {
+					ok() {
+						editors.forEach(e => e.setValue("\n\n"));
+					},
+					cancel(){}
+				}
+			});
+		}
 	});
 
 

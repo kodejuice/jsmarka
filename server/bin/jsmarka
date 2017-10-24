@@ -219,7 +219,7 @@ if (startServer){
 		let bind = typeof addr === 'string'
 		  ? 'pipe ' + addr
 		  : 'port ' + addr.port;
-		console.log('\n JsMarka Listening on ' + bind + '   (Ctrl-c to stop)\n');
+		console.log('\n JsMarka Listening on ' + bind + '   (Ctrl-C to stop)\n');
 
 		// open browser
 		if (!process.env.NO_BROWSER){
