@@ -4,29 +4,29 @@ node_js:
 	- "7"
 
 cache:
-  directories:
-    - travis_phantomjs
+	directories:
+		- travis_phantomjs
 
 before_install:
-   # Upgrade PhantomJS to v2.1.1.
-  - "export PHANTOMJS_VERSION=2.1.1"
-  - "export PATH=$PWD/travis_phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin:$PATH"
-  - "if [ $(phantomjs --version) != $PHANTOMJS_VERSION ]; then rm -rf $PWD/travis_phantomjs; mkdir -p $PWD/travis_phantomjs; fi"
-  - "if [ $(phantomjs --version) != $PHANTOMJS_VERSION ]; then wget https://github.com/Medium/phantomjs/releases/download/v$PHANTOMJS_VERSION/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 -O $PWD/travis_phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2; fi"
-  - "if [ $(phantomjs --version) != $PHANTOMJS_VERSION ]; then tar -xvf $PWD/travis_phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 -C $PWD/travis_phantomjs; fi"
-  - "phantomjs --version"
+	 # Upgrade PhantomJS to v2.1.1.
+	- "export PHANTOMJS_VERSION=2.1.1"
+	- "export PATH=$PWD/travis_phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin:$PATH"
+	- "if [ $(phantomjs --version) != $PHANTOMJS_VERSION ]; then rm -rf $PWD/travis_phantomjs; mkdir -p $PWD/travis_phantomjs; fi"
+	- "if [ $(phantomjs --version) != $PHANTOMJS_VERSION ]; then wget https://github.com/Medium/phantomjs/releases/download/v$PHANTOMJS_VERSION/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 -O $PWD/travis_phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2; fi"
+	- "if [ $(phantomjs --version) != $PHANTOMJS_VERSION ]; then tar -xvf $PWD/travis_phantomjs/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 -C $PWD/travis_phantomjs; fi"
+	- "phantomjs --version"
 
 install:
 	- npm install
-  - npm install -g casperjs
-  - npm install -g gulp-cli
+	- npm install -g casperjs
+	- npm install -g gulp-cli
 
 before_script:
-  - NO_BROWSER=true npm start
+	- NO_BROWSER=true npm start
 
 script:
 	- npm test
-  - gulp
+	- gulp
 
-notifications:
-	email: false
+matrix:
+	fast_finish: true
