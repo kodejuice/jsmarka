@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+/* global normalizePort */
+
 require('../lib/helpers')();
 
 let dotenv_file = require('path').resolve(
@@ -17,7 +19,10 @@ let app,
 
 	inquirer = require('inquirer'),
 	cmd = require('commander'),
-	shell = require('shelljs');
+	shell = require('shelljs'),
+
+	updateNotifier = require('update-notifier'),
+	pkg = require('../../package.json');
 
 
 let server_port = normalizePort(process.env.PORT) || 3000,
@@ -34,10 +39,14 @@ if ((process.argv[2]+'').match(/^(-h.*|--help)$/i)) {
 // cli setup //
 ///////////////
 
+let APP_VERSION = pkg.version;
 
 let startServer = true; // should we start the server ?
 
-cmd.version(require('../../package.json').version);
+
+// version
+cmd.version(APP_VERSION);
+
 
 // port
 cmd.option('-p, --port <port>', 'port to run on', function (port) {
@@ -146,19 +155,6 @@ cmd.option('-l, --list', 'see setup information', function () {
 });
 
 
-// update
-cmd.option('-u, update', 'update jsmarka', function () {
-	if (!startServer) process.exit(1);
-
-	startServer = false;
-
-	var child = shell.exec('npm i -g jsmarka@latest', {async:true});
-	child.stdout.on('data', function(data) {
-		console.log(data);
-	});
-});
-
-
 // --no-browser
 cmd.option('--no-browser', 'start server without launching browser', function() {
 	process.env.NO_BROWSER = true;
@@ -174,6 +170,12 @@ cmd.on('--help', function (){
 	`);
 });
 
+
+//jsmaka update
+function checkForPackageUpdates(){
+	updateNotifier({pkg}).notify();
+}
+
 cmd.parse(process.argv);
 
 
@@ -182,6 +184,8 @@ cmd.parse(process.argv);
 ///////////////////////
 
 if (startServer){
+	checkForPackageUpdates();
+
 	app = require('../app');
 
 	app.set('port', server_port);
