@@ -90,7 +90,7 @@ cmd.option('-s, --setup', 'setup jsmarka', function () {
 		validate: (p) => (''+p).length > 10
 	},{
 		name: "callback",
-		message: "Enter Your Github Callback URL",
+		message: "Enter Your Github App Callback URL",
 		default: process.env.GITHUB_callbackURL,
 		validate: function (p){
 			p = p + '';
