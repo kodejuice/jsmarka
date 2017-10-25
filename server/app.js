@@ -130,7 +130,7 @@ app.get('/auth/github',
 	passport.authenticate('github', { scope: [ 'user:email' ] })
 );
 
-app.get('/auth/github/callback',
+app.get('/auth',
 	passport.authenticate('github', { failureRedirect: '/auth/error' }),
 	(req, res) => res.redirect('/')
 );
