@@ -1,5 +1,6 @@
 let express = require('express');
 let router = express.Router();
+let uuid = require('uuid/v1');
 
 let Test = require('../db/model').tests;
 
@@ -18,6 +19,7 @@ router.post('/addtest', function(req, res, next) {
 
 		originalSlug = req.body.originalSlug || slug; // user-inputed slug
 
+	let uniqueID = uuid();
 
 	if (signedIn){
 		let user = req.user.username;
@@ -27,6 +29,7 @@ router.post('/addtest', function(req, res, next) {
 			user,
 			slug,
 			title,
+			uid: uniqueID,
 
 			html_code,
 			js_code1,

@@ -22,6 +22,7 @@ let TestSchema = new Schema({
 	user: String,
 	slug: String,
 	title: String,
+	uid: String,
 
 	html_code: String,
 	js_code1: String,

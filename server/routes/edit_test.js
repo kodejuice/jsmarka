@@ -1,6 +1,7 @@
 let express = require('express');
 let router = express.Router();
 let moment = require('moment');
+let uid = require('uuid/v1');
 
 let _ = require('lodash');
 
@@ -59,11 +60,14 @@ router.post('/:test_slug/edit', function(req, res, next) {
 						js_code1 = encodeURIComponent(js_code1);
 						js_code2 = encodeURIComponent(js_code2);
 
+						let uniqueID = uid();
+
 						// else: create new
 						let newItem = {
 							user,
 							slug: new_slug,
 							title: new_title,
+							uid: uniqueID,
 
 							html_code,
 							js_code1,

@@ -46,15 +46,14 @@ router.get('/:test_slug', function(req, res, next) {
 				title: item.title,
 				publish: item.publish,
 				views: item.views,
+				uid: item.uid,
 
 				date: item.date,
 				last_modified: item.last_modified,
 
 				html: item.html_code,
 				js1: item.js_code1,
-				js2: item.js_code2,
-
-				views: item.views
+				js2: item.js_code2
 			});
 		}
 		else {
