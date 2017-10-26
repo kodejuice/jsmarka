@@ -7,7 +7,7 @@ module.exports = {
 	/* phantomjs viewPort size */
 	view: {
 		width: 1300,
-		height: 1300
+		height: 800
 	},
 
 	/* screenshoot page */
