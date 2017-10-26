@@ -49,7 +49,7 @@ if (process.env.LOG) {
 	app.use(logger('dev'));
 }
 
-// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, '../client/public/favicon', 'favicon.ico')));
 app.use(compression());
 app.use(helmet());
 app.use(bodyParser.json());
