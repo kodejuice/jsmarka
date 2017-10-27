@@ -1,11 +1,11 @@
 # Dependency directory
-node_modules
+node_modules/
 
 # Debug log from npm
 npm-debug.log
 
 # CasperJS screenshots
-screenshots
+screenshots/
 
 # Sass
 /.sass-cache
