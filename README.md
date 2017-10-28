@@ -16,7 +16,6 @@ JSMarka is a Javascript Code Performance benchmarking app
 2. [MongoDB](https://docs.mongodb.com/manual/installation)
 
 4. Register a [new OAuth GitHub application](https://github.com/settings/applications/new).
-	_(Optional, only required if you would like to save tests locally)_
 
 
 ### Install using npm
@@ -25,17 +24,9 @@ JSMarka is a Javascript Code Performance benchmarking app
 $ npm install -g jsmarka
 ```
 
-Once jsmarka is installed on your system, start the server using the following:
-
-```bash
-$ jsmarka -p 3000
-```
-This gets jsmarka server running on port **3000**, use `jsmarka --help` for more useful commands
-
-
 ### Setup
 
-If you would like to sign in save tests locally, then you shouldn't skip step 3, Register a [new OAuth GitHub application](https://github.com/settings/applications/new), set the "Callback" url to `http://localhost:3000/auth`, then get the apps' "Client ID" and "Client Secret".
+Register a [new OAuth GitHub application](https://github.com/settings/applications/new), set the "Callback" url to `http://localhost:3000/auth`, then get the apps' "Client ID" and "Client Secret".
 
 _**Note:** You should set the GitHub App "Callback" urls' port to whatever you've configured jsmarka to run on. (see below)_
 
@@ -57,6 +48,15 @@ $ jsmarka --list
 You can see that the `PORT` value is the same port used in the `GitHub App Callback URL`, that's how yours should be set.
 
 Run `jsmarka --help` to see useful commands.
+
+--------------------------
+
+**After setup, start the server using the following:**
+
+```bash
+$ jsmarka -p 3000
+```
+This gets jsmarka server running on port **3000**, use `jsmarka --help` for more useful commands
 
 
 ## Development
@@ -89,7 +89,7 @@ Use `npm run build` to manually re-build the assets
 
 ### Testing
 
-JSMarka uses [casperjs](https://casperjs.org) which in turn requires [PhantomJS](http:///phantomjs.org) for end-to-end testing, So you should have both casperjs and phantomjs installed on your system.
+JSMarka uses [CasperJS](https://casperjs.org) which in turn requires [PhantomJS](http:///phantomjs.org) for end-to-end testing, So you should have both casperjs and phantomjs installed on your system.
 
 First, have a separate terminal running `npm start`
 

@@ -5,7 +5,7 @@ let mongoose = require('mongoose');
 	mongoose.Promise = Promise;
 
 // connect to DB
-mongoose.connect('mongodb://localhost/jsmarka', {
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/jsmarka', {
 	useMongoClient: true
 });
 

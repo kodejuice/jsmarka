@@ -1,1 +1,1 @@
-web: npm start
+web: ./server/bin/jsmarka --no-browser
