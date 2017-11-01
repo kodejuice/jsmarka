@@ -24,9 +24,10 @@ install:
   - npm install -g gulp-cli
 
 before_script:
-  - NO_BROWSER=true npm start
+  - NO_BROWSER=true npm start &
 
 script:
+  - sleep 7 # give server some time to start up
   - npm test
   - gulp
 
