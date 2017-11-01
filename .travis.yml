@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-  - "7"
+  - "8"
 
 cache:
   directories:
@@ -17,6 +17,8 @@ before_install:
   - "phantomjs --version"
 
 install:
+  - npm i -g npm@latest
+
   - npm install
   - npm install -g casperjs
   - npm install -g gulp-cli
