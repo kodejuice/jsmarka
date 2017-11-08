@@ -31,8 +31,8 @@ $ jsmarka -p 3000
 This gets jsmarka server running on port **3000**, visit [http://localhost:3000/](http://localhost:3000/) and start benchmarking.
 Use `jsmarka --help` for more useful commands
 
-<br>
-### Setup (**Optional**)
+
+### Setup (Optional)
 
 If you would like to save tests locally, then you should Register a new OAuth GitHub application
 
