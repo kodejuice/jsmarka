@@ -1,4 +1,9 @@
 # Changelog
+## v1.0.3
+
+### Description
+Fixed a html entity bug in the view test page.
+
 ## v1.0.2
 
 ### Description
