@@ -8,13 +8,30 @@ let dotenv_file = require('path').resolve(
   __dirname + "/../../.env"
 );
 
-// load .env file
+let fs = require('fs');
+
+
+//////////////////////////////
+// Create a dummy .env file //
+//  if it doesnt exist      //
+//////////////////////////////
+try {
+	fs.readFileSync(dotenv_file);
+} catch (e){
+	fs.writeFileSync(dotenv_file, `
+GITHUB_clientID = NO_DATA
+GITHUB_clientSECRET = NO_DATA
+GITHUB_callbackURL = NO_DATA
+`);
+}
+
+// load/parse .env file
 require('dotenv').config({ path: dotenv_file });
+
 
 let app,
 	debug = require('debug')('jsmarka:server'),
 	http = require('http'),
-	fs = require('fs'),
 	url = require('url'),
 
 	inquirer = require('inquirer'),

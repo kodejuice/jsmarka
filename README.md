@@ -15,8 +15,6 @@ JSMarka is a Javascript Code Performance benchmarking app
 
 2. [MongoDB](https://docs.mongodb.com/manual/installation)
 
-4. Register a [new OAuth GitHub application](https://github.com/settings/applications/new).
-
 
 ### Install using npm
 
@@ -24,9 +22,21 @@ JSMarka is a Javascript Code Performance benchmarking app
 $ npm install -g jsmarka
 ```
 
-### Setup
+<br>
+After installation, run the following to start JSMarka
 
-Register a [new OAuth GitHub application](https://github.com/settings/applications/new), set the "Callback" url to `http://localhost:3000/auth`, then get the apps' "Client ID" and "Client Secret".
+```bash
+$ jsmarka -p 3000
+```
+This gets jsmarka server running on port **3000**, visit [http://localhost:3000/](http://localhost:3000/) and start benchmarking.
+Use `jsmarka --help` for more useful commands
+
+<br>
+### Setup (**Optional**)
+
+If you would like to save tests locally, then you should Register a new OAuth GitHub application
+
+[Register a new OAuth GitHub application](https://github.com/settings/applications/new), set the "Callback" url to `http://localhost:3000/auth`, then get the apps' "Client ID" and "Client Secret".
 
 _**Note:** You should set the GitHub App "Callback" urls' port to whatever you've configured jsmarka to run on. (see below)_
 
@@ -49,14 +59,6 @@ You can see that the `PORT` value is the same port used in the `GitHub App Callb
 
 Run `jsmarka --help` to see useful commands.
 
---------------------------
-
-**After setup, start the server using the following:**
-
-```bash
-$ jsmarka -p 3000
-```
-This gets jsmarka server running on port **3000**, use `jsmarka --help` for more useful commands
 
 
 ## Development
