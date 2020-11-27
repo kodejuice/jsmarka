@@ -5,7 +5,9 @@ let mongoose = require('mongoose');
 // mongoose.Promise = Promise;
 
 // connect to DB
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/jsmarka');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/jsmarka', {
+	useNewUrlParser: true
+});
 
 // import helper functions
 require('./lib/helpers')();
