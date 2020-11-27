@@ -1,8 +1,7 @@
 
 /* global err_msg */
 
-import { Promise as _Promise, connect } from 'mongoose';
-	_Promise = Promise;
+import { connect } from 'mongoose';
 
 // connect to DB
 connect(process.env.MONGOLAB_URI || 'mongodb://localhost/jsmarka');
