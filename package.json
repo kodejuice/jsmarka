@@ -20,7 +20,7 @@
     "url": "https://github.com/kodejuice/jsmarka/issues"
   },
   "engines": {
-    "node": "12.19.1",
+    "node": "11.15.0",
     "npm": "6.14.8"
   },
   "keywords": [
