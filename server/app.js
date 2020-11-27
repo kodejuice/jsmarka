@@ -1,47 +1,45 @@
 
 /* global err_msg */
 
-let mongoose = require('mongoose');
-	mongoose.Promise = Promise;
+import { Promise as _Promise, connect } from 'mongoose';
+	_Promise = Promise;
 
 // connect to DB
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/jsmarka', {
-	useMongoClient: true
-});
+connect(process.env.MONGOLAB_URI || 'mongodb://localhost/jsmarka');
 
 // import helper functions
 require('./lib/helpers')();
 
-let fs = require('fs');
-let express = require('express');
-let path = require('path');
-let favicon = require('serve-favicon');
-let logger = require('morgan');
-let cookieParser = require('cookie-parser');
-let bodyParser = require('body-parser');
-let cookieSession = require('cookie-session');
-let compression = require('compression');
-let helmet = require('helmet');
-let showdown = require('showdown');
+import { readFile } from 'fs';
+import express, { static } from 'express';
+import { join } from 'path';
+import favicon from 'serve-favicon';
+import logger from 'morgan';
+import cookieParser from 'cookie-parser';
+import { json, urlencoded } from 'body-parser';
+import cookieSession from 'cookie-session';
+import compression from 'compression';
+import helmet from 'helmet';
+import { Converter } from 'showdown';
 
 // github auth script
-let passport = require('./auth/github');
+import { initialize, session, authenticate } from './auth/github';
 
 // route scripts
-let index = require('./routes/index');
-let tests = require('./routes/tests');
-let addtest = require('./routes/addtest');
-let mytests = require('./routes/mytests');
-let search = require('./routes/search');
-let viewtest = require('./routes/viewtest');
-let edit_test = require('./routes/edit_test');
-let delete_test = require('./routes/delete_test');
+import index from './routes/index';
+import tests from './routes/tests';
+import addtest from './routes/addtest';
+import mytests from './routes/mytests';
+import search from './routes/search';
+import viewtest from './routes/viewtest';
+import edit_test from './routes/edit_test';
+import delete_test from './routes/delete_test';
 
 
 let app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 
@@ -49,13 +47,13 @@ if (process.env.LOG) {
 	app.use(logger('dev'));
 }
 
-app.use(favicon(path.join(__dirname, '../client/public/favicon', 'favicon.ico')));
+app.use(favicon(join(__dirname, '../client/public/favicon', 'favicon.ico')));
 app.use(compression());
 app.use(helmet());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(json());
+app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../client/public')));
+app.use(static(join(__dirname, '../client/public')));
 
 app.set('trust proxy', 1);
 app.use(cookieSession({
@@ -63,20 +61,20 @@ app.use(cookieSession({
 	keys: ['key1'],
 	maxAge: 24 * 60 * 60 * 1000 // 24hrs
 }));
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(initialize());
+app.use(session());
 
 app.get_post = (pth, handler) => app.route(pth).get(handler).post(handler);
 
 
 /* pass CHANGELOG.md:html to all pages */
-app.use((req, res, next)=>{
-	fs.readFile(`${__dirname}/../CHANGELOG.md`, (err, d)=>{
+app.use((_req, res, next)=>{
+	readFile(`${__dirname}/../CHANGELOG.md`, (err, d)=>{
 		if (err){
 			err_msg(err);
 		}
 
-		let converter = new showdown.Converter();
+		let converter = new Converter();
         converter.setFlavor('github');
 
 		let	html = converter.makeHtml(d+'');
@@ -127,26 +125,26 @@ app.get('/auth/error', (req, res)=>{
 });
 
 app.get('/auth/github',
-	passport.authenticate('github', { scope: [ 'user:email' ] })
+	authenticate('github', { scope: [ 'user:email' ] })
 );
 
 app.get('/auth',
-	passport.authenticate('github', { failureRedirect: '/auth/error' }),
-	(req, res) => res.redirect('/')
+	authenticate('github', { failureRedirect: '/auth/error' }),
+	(_req, res) => res.redirect('/')
 );
 
 
 // == error handling == //
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
+app.use((_req, _res, next) => {
 	let err = new Error('Not Found');
 	err.status = 404;
 	next(err);
 });
 
 // error handler
-app.use((err, req, res, next) => {
+app.use((err, req, res, _next) => {
 	// set locals, only providing error in development
 	res.locals.message = err.message;
 	res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -159,4 +157,4 @@ app.use((err, req, res, next) => {
 	});
 });
 
-module.exports = app;
+export default app;

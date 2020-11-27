@@ -1,14 +1,14 @@
-let express = require('express');
-let router = express.Router();
-let moment = require('moment');
+import { Router } from 'express';
+let router = Router();
+import moment from 'moment';
 
-let paging = require('../lib/paging');
+import paging from '../lib/paging';
 
-let Test = require('../db/model').tests;
+import { tests as Test } from '../db/model';
 
 
 // Get tests
-router.get('/tests', function(req, res, next) {
+router.get('/tests', function(req, res, _next) {
 	let signedIn = req.isAuthenticated();
 
 	// tests category
@@ -37,7 +37,7 @@ router.get('/tests', function(req, res, next) {
 
 		if (pagingStart > tests.length)
 			tests = tests.slice(0, 27);
-		else 
+		else
 			tests = tests.slice(pagingStart, pagingStart + 27);
 
 		// paging
@@ -48,7 +48,7 @@ router.get('/tests', function(req, res, next) {
 			signedIn,
 			moment, // pass the moment module so we can use it in our page via ejs
 			user: req.user,
-			
+
 			tests: tests,
 			paging: pagingHTML,
 			pagingStart: (pagingStart/27)
@@ -68,4 +68,4 @@ router.get('/tests', function(req, res, next) {
 });
 
 
-module.exports = router;
+export default router;
