@@ -1,14 +1,14 @@
-import { Router } from 'express';
-let router = Router();
-import moment from 'moment';
+let express = require('express');
+let router = express.Router();
+let moment = require('moment');
 
-import paging from '../lib/paging';
+let paging = require('../lib/paging');
 
-import { tests as Test } from '../db/model';
+let Test = require('../db/model').tests;
 
 
 // Get tests
-router.get('/tests', function(req, res, _next) {
+router.get('/tests', function(req, res, next) {
 	let signedIn = req.isAuthenticated();
 
 	// tests category
@@ -68,4 +68,4 @@ router.get('/tests', function(req, res, _next) {
 });
 
 
-export default router;
+module.exports = router;

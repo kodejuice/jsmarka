@@ -1,12 +1,7 @@
 {
   "name": "jsmarka",
   "description": "Javascript Code Performance Benchmarking App",
-  "author": [
-    {
-      "name": "Sochima Biereagu",
-      "email": "kodejuice@gmail.com"
-    }
-  ],
+  "author": "Sochima Biereagu",
   "license": "MIT",
   "homepage": "https://jsmarka.com",
   "repository": {
