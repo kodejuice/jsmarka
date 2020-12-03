@@ -1,12 +1,7 @@
 {
   "name": "jsmarka",
   "description": "Javascript Code Performance Benchmarking App",
-  "author": [
-    {
-      "name": "Sochima Biereagu",
-      "email": "kodejuice@gmail.com"
-    }
-  ],
+  "author": "Sochima Biereagu",
   "license": "MIT",
   "homepage": "https://jsmarka.com",
   "repository": {
@@ -20,8 +15,8 @@
     "url": "https://github.com/kodejuice/jsmarka/issues"
   },
   "engines": {
-    "node": "8.1.0",
-    "npm": "5.5.1"
+    "node": "11.15.0",
+    "npm": "6.14.8"
   },
   "keywords": [
     "jsmarka",
@@ -38,21 +33,22 @@
     "dev": "nodemon ./server/bin/jsmarka --no-browser & gulp watch"
   },
   "dependencies": {
-    "body-parser": "~1.17.1",
+    "body-parser": "^1.19.0",
     "compression": "^1.7.0",
     "cookie-parser": "~1.4.3",
     "cookie-session": "^2.0.0-beta.2",
     "debug": "~2.6.3",
     "dotenv": "^4.0.0",
     "ejs": "~2.5.6",
-    "express": "~4.15.2",
+    "express": "^4.17.1",
     "helmet": "^3.8.1",
     "inquirer": "^3.3.0",
     "js-beautify": "^1.7.4",
     "moment": "^2.18.1",
-    "mongoose": "^4.11.9",
+    "mongoose": "^5.10.16",
     "mongoose-search-plugin": "^0.1.2",
-    "morgan": "~1.8.1",
+    "morgan": "^1.10.0",
+    "node-sass": "^5.0.0",
     "openurl": "^1.1.1",
     "passport": "^0.4.0",
     "passport-github2": "^0.1.9",

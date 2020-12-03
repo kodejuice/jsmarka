@@ -37,7 +37,7 @@ router.get('/tests', function(req, res, next) {
 
 		if (pagingStart > tests.length)
 			tests = tests.slice(0, 27);
-		else 
+		else
 			tests = tests.slice(pagingStart, pagingStart + 27);
 
 		// paging
@@ -48,7 +48,7 @@ router.get('/tests', function(req, res, next) {
 			signedIn,
 			moment, // pass the moment module so we can use it in our page via ejs
 			user: req.user,
-			
+
 			tests: tests,
 			paging: pagingHTML,
 			pagingStart: (pagingStart/27)

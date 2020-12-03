@@ -2,11 +2,11 @@
 /* global err_msg */
 
 let mongoose = require('mongoose');
-	mongoose.Promise = Promise;
+// mongoose.Promise = Promise;
 
 // connect to DB
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/jsmarka', {
-	useMongoClient: true
+	useNewUrlParser: true
 });
 
 // import helper functions
