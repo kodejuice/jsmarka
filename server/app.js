@@ -6,7 +6,8 @@ let mongoose = require('mongoose');
 
 // connect to DB
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/jsmarka', {
-	useNewUrlParser: true
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
 });
 
 // import helper functions
