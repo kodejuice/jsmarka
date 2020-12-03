@@ -4,7 +4,7 @@
 
 JSMarka is a Javascript Code Performance benchmarking app
 
-[jsmarka.herokuapp.com](http://jsmarka.herokuapp.com)
+[jsmarka.herokuapp.com](https://jsmarka.herokuapp.com)
 
 
 ## Running a local copy of JSMarka
