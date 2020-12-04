@@ -11,7 +11,7 @@ JSMarka is a Javascript Code Performance benchmarking app
 
 ### Requirements
 
-1. [Node.js](https://nodejs.org/en/) v8
+1. [Node.js](https://nodejs.org/en/) v11
 
 2. [MongoDB](https://docs.mongodb.com/manual/installation)
 
