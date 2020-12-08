@@ -2,7 +2,7 @@
 [![NPM version](https://img.shields.io/npm/v/jsmarka.svg)](https://www.npmjs.com/package/jsmarka)
 [![Build Status](https://img.shields.io/travis/kodejuice/jsmarka.svg)](https://travis-ci.org/kodejuice/jsmarka)
 
-JSMarka is a Javascript Code Performance benchmarking app
+JSMarka is a Javascript code performance benchmark tool
 
 [jsmarka.herokuapp.com](https://jsmarka.herokuapp.com)
 
